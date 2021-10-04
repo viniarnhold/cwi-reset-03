@@ -2,9 +2,9 @@
 public class Registradora {
 
     public static void main(String[] args) {
-        primeiroBug();
+//       primeiroBug();
 
-//        segundoBug();
+        segundoBug();
 
 //        terceiroBug();
 //
@@ -21,7 +21,9 @@ public class Registradora {
         if (QuantidadeMinimaItem.precisaReposicao(item)) {
             if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
-                    System.out.println("Cozinha fechada!");
+                    System.out.println("Reposição do item não disponível");
+                    ItensPorQuantidade.informarQuantidadeRestante(item);
+
                 }
                 ReposicaoCozinha.reporItem(item);
             }
