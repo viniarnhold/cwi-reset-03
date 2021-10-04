@@ -10,9 +10,9 @@ public class Registradora {
 
 //        quartoBug();
 
-        quintoBug();
-//
-//        sextoBug();
+//        quintoBug();
+
+        sextoBug();
     }
 
     private static double registrarItem(String item, int quantidade) {
@@ -32,6 +32,8 @@ public class Registradora {
                 ReposicaoFornecedor.reporItem(item);
             }
         }
+
+        ItensPorQuantidade.diminuirQuantidade(item, quantidade);
 
         return precoItem;
     }

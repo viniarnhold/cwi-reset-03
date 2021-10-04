@@ -21,4 +21,22 @@ public class ItensPorQuantidade {
             System.out.println("Produto não encontrado");
         }
     }
+    public static void diminuirQuantidade(String item, int quantidade){
+        if ("pao".equals(item)) {
+            pao -= quantidade;
+        }
+        if ("torta".equals(item)) {
+            torta -= quantidade;
+        }
+        if ("sanduiche".equals(item)) {
+            sanduiche -= quantidade;
+        }
+        if ("leite".equals(item)) {
+            leite -= quantidade;
+        }
+        if ("cafe".equals(item)) {
+            cafe -= quantidade;
+        }
+
+    }
 }

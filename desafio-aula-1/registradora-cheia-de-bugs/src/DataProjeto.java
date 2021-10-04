@@ -30,7 +30,7 @@ public class DataProjeto {
         int hora = random.nextInt(24);
         int minuto = random.nextInt(60);
 
-        return new DataProjeto(false, hora, minuto);
+        return new DataProjeto(true, hora, minuto);
     }
 
     private DataProjeto(boolean diaUtil, int hora, int minuto) {
