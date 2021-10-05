@@ -1,6 +1,9 @@
 public class RelacaoPesoPreco {
 
     public static double retornaPrecoProduto(String item, int qtd) {
+
+        //Método calcula o preço do item em questão, com base no item e quantidade informados
+
         double precoTotal = 0;
 
         if ("pao".equals(item)) {
