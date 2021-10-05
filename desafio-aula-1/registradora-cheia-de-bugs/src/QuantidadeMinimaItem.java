@@ -13,11 +13,11 @@ public class QuantidadeMinimaItem {
             return ItensPorQuantidade.sanduiche <= 1;
         }
 
-        if ("cafe".equals(item)) {
+        if ("leite".equals(item)) {
             return ItensPorQuantidade.leite < 12;
         }
 
-        if ("leite".equals(item)) {
+        if ("cafe".equals(item)) {
             return ItensPorQuantidade.cafe < 12;
         }
 
