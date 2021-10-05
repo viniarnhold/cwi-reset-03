@@ -11,7 +11,7 @@ public class DataProjeto {
 
     public static DataProjeto criarDataComCozinhaFuncionando() {
         Random random = new Random();
-        int hora = random.nextInt(10) + 6;
+        int hora = random.nextInt(10) + 6; //Horário de funcionamento das 6h às 16h40min
         int minuto = hora == 16 ? random.nextInt(40) : random.nextInt(60);
 
         return new DataProjeto(true, hora, minuto);
@@ -19,7 +19,7 @@ public class DataProjeto {
 
     public static DataProjeto criarDataComCozinhaEncerradaMasComDiaUtil() {
         Random random = new Random();
-        int hora = random.nextInt(6);
+        int hora = random.nextInt(6); //Antes das 6h(cozinha fechada)
         int minuto = random.nextInt(60);
 
         return new DataProjeto(true, hora, minuto);
@@ -30,7 +30,7 @@ public class DataProjeto {
         int hora = random.nextInt(24);
         int minuto = random.nextInt(60);
 
-        return new DataProjeto(true, hora, minuto);
+        return new DataProjeto(false, hora, minuto); //Dia útil deve ser falso
     }
 
     private DataProjeto(boolean diaUtil, int hora, int minuto) {
