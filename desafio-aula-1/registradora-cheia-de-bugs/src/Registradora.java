@@ -2,9 +2,9 @@
 public class Registradora {
 
     public static void main(String[] args) {
-//       primeiroBug();
+//        primeiroBug();
 
-//        segundoBug();
+//       segundoBug();
 
 //        terceiroBug();
 
@@ -13,19 +13,19 @@ public class Registradora {
 //        quintoBug();
 
         sextoBug();
+
     }
 
-    private static double registrarItem(String item, int quantidade) {
-        double precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
-
+    private static void reposicaoItens(String item){
         if (QuantidadeMinimaItem.precisaReposicao(item)) {
             if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
                 if (!DataProjeto.cozinhaEmFuncionamento()) {
-                    System.out.println("Reposição do item não disponível");
+                    System.out.println("Reposição de " + item + " não disponível");
                     ItensPorQuantidade.informarQuantidadeRestante(item);
 
+                } else {
+                    ReposicaoCozinha.reporItem(item);
                 }
-                ReposicaoCozinha.reporItem(item);
             }
 
             if ("leite".equals(item) || "cafe".equals(item)) {
@@ -33,7 +33,65 @@ public class Registradora {
             }
         }
 
-        ItensPorQuantidade.diminuirQuantidade(item, quantidade);
+    }
+
+    private static double registrarItem(String item, int quantidade) {
+        double precoItem = 0;
+        if (QuantidadeMinimaItem.precisaReposicao(item)) {
+            if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
+                if (!DataProjeto.cozinhaEmFuncionamento()) {
+                    System.out.println("Reposição de " + item + " não disponível");
+                    ItensPorQuantidade.informarQuantidadeRestante(item);
+
+                } else {
+                ReposicaoCozinha.reporItem(item);
+                }
+            }
+
+            if ("leite".equals(item) || "cafe".equals(item)) {
+                ReposicaoFornecedor.reporItem(item);
+            }
+        }
+        if ("pao".equals(item)) {
+            if (ItensPorQuantidade.pao >= quantidade) {
+                ItensPorQuantidade.diminuirQuantidade(item, quantidade);
+                precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            } else {
+                precoItem = 0.00;
+            }
+        }
+        if ("sanduiche".equals(item)) {
+            if (ItensPorQuantidade.sanduiche >= quantidade) {
+                ItensPorQuantidade.diminuirQuantidade(item, quantidade);
+                precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            } else {
+                precoItem = 0.00;
+            }
+        }
+        if ("torta".equals(item)) {
+            if (ItensPorQuantidade.torta >= quantidade) {
+                ItensPorQuantidade.diminuirQuantidade(item, quantidade);
+                precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            } else {
+                precoItem = 0.00;
+            }
+        }
+        if ("leite".equals(item)) {
+            if (ItensPorQuantidade.leite >= quantidade) {
+                ItensPorQuantidade.diminuirQuantidade(item, quantidade);
+                precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            } else {
+                precoItem = 0.00;
+            }
+        }
+        if ("cafe".equals(item)) {
+            if (ItensPorQuantidade.cafe >= quantidade) {
+                ItensPorQuantidade.diminuirQuantidade(item, quantidade);
+                precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
+            } else {
+                precoItem = 0.00;
+            }
+        }
 
         return precoItem;
     }
@@ -61,10 +119,11 @@ public class Registradora {
     private static void terceiroBug() {
         DataProjeto.criarDataComCozinhaFuncionando();
         String item = "cafe";
+        System.out.println(ItensPorQuantidade.cafe);
         int quantidade = 40;
 
         double precoTotal = registrarItem(item, quantidade);
-
+        System.out.println(ItensPorQuantidade.cafe);
         System.out.println(String.format("Valor total: %.2f", precoTotal));
     }
 
