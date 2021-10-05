@@ -7,7 +7,6 @@ public class ReposicaoCozinha {
             ItensPorQuantidade.pao += 3600;
         }
         if ("torta".equals(item)) {
-            int tortaInteira = 4;
             ItensPorQuantidade.tortaInteira += 4;
         }
         if ("sanduiche".equals(item)) {

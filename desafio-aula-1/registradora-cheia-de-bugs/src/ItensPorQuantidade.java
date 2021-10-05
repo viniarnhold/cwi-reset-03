@@ -28,9 +28,7 @@ public class ItensPorQuantidade {
         }
         if ("torta".equals(item)) {
             torta -= quantidade;
-            if(torta%16 != 0){
-                tortaInteira -= 1;
-            }
+            tortaInteira = (int)torta/16;
         }
         if ("sanduiche".equals(item)) {
                 sanduiche -= quantidade;
