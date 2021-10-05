@@ -1,7 +1,8 @@
 public class ItensPorQuantidade {
 
     static int pao = 3600;
-    static int torta = 4;
+    static int tortaInteira = 4;
+    static int torta = tortaInteira * 16;
     static int sanduiche = 20;
     static int leite = 20;
     static int cafe = 20;
@@ -23,13 +24,16 @@ public class ItensPorQuantidade {
     }
     public static void diminuirQuantidade(String item, int quantidade){
         if ("pao".equals(item)) {
-            pao -= quantidade;
+                pao -= quantidade;
         }
         if ("torta".equals(item)) {
             torta -= quantidade;
+            if(torta%16 != 0){
+                tortaInteira -= 1;
+            }
         }
         if ("sanduiche".equals(item)) {
-            sanduiche -= quantidade;
+                sanduiche -= quantidade;
         }
         if ("leite".equals(item)) {
             leite -= quantidade;
