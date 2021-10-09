@@ -8,61 +8,26 @@ public class Filme {
 
     public Filme(String nome, String descrição, Integer duracao,
                  Integer anoDeLancamento, Float avaliacao, String nomeDiretor,
-                 Integer idadeDoDiretor, Integer quantidadesDeFilmesDoDiretor) {
+                 Integer idadeDoDiretor, Genero generoDiretor, Integer quantidadesDeFilmesDoDiretor) {
         this.nome = nome;
         this.descrição = descrição;
         this.duracao = duracao;
         this.anoDeLancamento = anoDeLancamento;
         this.avaliacao = avaliacao;
-        this.diretor = new Diretor(nomeDiretor, idadeDoDiretor, quantidadesDeFilmesDoDiretor);
+        this.diretor = new Diretor(nomeDiretor, idadeDoDiretor, generoDiretor, quantidadesDeFilmesDoDiretor);
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
+    public Filme(String nome, String descrição, Integer duracao,
+                 Integer anoDeLancamento, Float avaliacao, Diretor diretor) {
         this.nome = nome;
-    }
-
-    public String getDescrição() {
-        return descrição;
-    }
-
-    public void setDescrição(String descrição) {
         this.descrição = descrição;
-    }
-
-    public Integer getDuracao() {
-        return duracao;
-    }
-
-    public void setDuracao(Integer duracao) {
         this.duracao = duracao;
-    }
-
-    public Integer getAnoDeLancamento() {
-        return anoDeLancamento;
-    }
-
-    public void setAnoDeLancamento(Integer anoDeLancamento) {
         this.anoDeLancamento = anoDeLancamento;
-    }
-
-    public Float getAvaliacao() {
-        return avaliacao;
-    }
-
-    public void setAvaliacao(Float avaliacao) {
         this.avaliacao = avaliacao;
+        this.diretor = diretor;
     }
 
     public Diretor getDiretor() {
         return diretor;
-    }
-
-    public void setDiretor(Diretor diretor) {
-        this.diretor = diretor;
     }
 
     public void reproduzir(){
