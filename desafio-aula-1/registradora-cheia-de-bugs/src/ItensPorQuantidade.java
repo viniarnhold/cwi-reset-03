@@ -24,14 +24,14 @@ public class ItensPorQuantidade {
     }
     public static void diminuirQuantidade(String item, int quantidade){
         if ("pao".equals(item)) {
-                pao -= quantidade;
+            pao -= quantidade;
         }
         if ("torta".equals(item)) {
             torta -= quantidade;
             tortaInteira = (int)torta/16;
         }
         if ("sanduiche".equals(item)) {
-                sanduiche -= quantidade;
+            sanduiche -= quantidade;
         }
         if ("leite".equals(item)) {
             leite -= quantidade;

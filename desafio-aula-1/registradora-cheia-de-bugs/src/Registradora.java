@@ -6,13 +6,13 @@ public class Registradora {
 
 //       segundoBug();
 
-//        terceiroBug();
+        terceiroBug();
 
 //        quartoBug();
 
 //        quintoBug();
 
-        sextoBug();
+//        sextoBug();
 
     }
 
@@ -37,26 +37,14 @@ public class Registradora {
 
     private static double registrarItem(String item, int quantidade) {
         double precoItem = 0;
-        if (QuantidadeMinimaItem.precisaReposicao(item)) {
-            if ("pao".equals(item) || "sanduiche".equals(item) || "torta".equals(item)) {
-                if (!DataProjeto.cozinhaEmFuncionamento()) {
-                    System.out.println("Reposição de " + item + " não disponível");
-                    ItensPorQuantidade.informarQuantidadeRestante(item);
+        reposicaoItens(item);
 
-                } else {
-                ReposicaoCozinha.reporItem(item);
-                }
-            }
-
-            if ("leite".equals(item) || "cafe".equals(item)) {
-                ReposicaoFornecedor.reporItem(item);
-            }
-        }
         if ("pao".equals(item)) {
             if (ItensPorQuantidade.pao >= quantidade) {
                 ItensPorQuantidade.diminuirQuantidade(item, quantidade);
                 precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
             } else {
+                System.out.println("Não há estoque suficiente para a venda");
                 precoItem = 0.00;
             }
         }
@@ -65,6 +53,7 @@ public class Registradora {
                 ItensPorQuantidade.diminuirQuantidade(item, quantidade);
                 precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
             } else {
+                System.out.println("Não há estoque suficiente para a venda");
                 precoItem = 0.00;
             }
         }
@@ -73,6 +62,7 @@ public class Registradora {
                 ItensPorQuantidade.diminuirQuantidade(item, quantidade);
                 precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
             } else {
+                System.out.println("Não há estoque suficiente para a venda");
                 precoItem = 0.00;
             }
         }
@@ -81,6 +71,7 @@ public class Registradora {
                 ItensPorQuantidade.diminuirQuantidade(item, quantidade);
                 precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
             } else {
+                System.out.println("Não há estoque suficiente para a venda");
                 precoItem = 0.00;
             }
         }
@@ -89,6 +80,7 @@ public class Registradora {
                 ItensPorQuantidade.diminuirQuantidade(item, quantidade);
                 precoItem = RelacaoPesoPreco.retornaPrecoProduto(item, quantidade);
             } else {
+                System.out.println("Não há estoque suficiente para a venda");
                 precoItem = 0.00;
             }
         }
@@ -119,11 +111,9 @@ public class Registradora {
     private static void terceiroBug() {
         DataProjeto.criarDataComCozinhaFuncionando();
         String item = "cafe";
-        System.out.println(ItensPorQuantidade.cafe);
         int quantidade = 40;
 
         double precoTotal = registrarItem(item, quantidade);
-        System.out.println(ItensPorQuantidade.cafe);
         System.out.println(String.format("Valor total: %.2f", precoTotal));
     }
 
