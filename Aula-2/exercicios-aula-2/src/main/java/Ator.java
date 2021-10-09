@@ -7,6 +7,6 @@ public class Ator {
     public void imprimirNome(){
         System.out.println("Nome: " + nome);
         System.out.println("Idade: " + idade);
-        System.out.println("Genero: " + genero);
+        System.out.println("Genero: " + genero.getDescricao());
     }
 }
