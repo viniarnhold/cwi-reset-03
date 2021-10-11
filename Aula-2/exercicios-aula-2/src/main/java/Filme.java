@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+
 public class Filme {
     private String nome;
     private String descrição;
@@ -8,13 +10,17 @@ public class Filme {
 
     public Filme(String nome, String descrição, Integer duracao,
                  Integer anoDeLancamento, Float avaliacao, String nomeDiretor,
-                 Integer idadeDoDiretor, Genero generoDiretor, Integer quantidadesDeFilmesDoDiretor) {
+                 LocalDate dataNascimento, Genero generoDiretor, Integer quantidadesDeFilmesDoDiretor) {
         this.nome = nome;
         this.descrição = descrição;
         this.duracao = duracao;
         this.anoDeLancamento = anoDeLancamento;
+        if(avaliacao >= 1 || avaliacao <=5){
         this.avaliacao = avaliacao;
-        this.diretor = new Diretor(nomeDiretor, idadeDoDiretor, generoDiretor, quantidadesDeFilmesDoDiretor);
+        } else {
+            throw new AvaliacaoForaDoPadraoException();
+        }
+        this.diretor = new Diretor(nomeDiretor, dataNascimento, generoDiretor, quantidadesDeFilmesDoDiretor);
     }
     public Filme(String nome, String descrição, Integer duracao,
                  Integer anoDeLancamento, Float avaliacao, Diretor diretor) {
@@ -24,6 +30,9 @@ public class Filme {
         this.anoDeLancamento = anoDeLancamento;
         this.avaliacao = avaliacao;
         this.diretor = diretor;
+    }
+
+    public Filme(String nome, String descrição, int duracao, int anoDeLancamento, float avaliacao, String dominic_sena, int i, Genero masculino, int quantidadesDeFilmesDoDiretor) {
     }
 
     public Diretor getDiretor() {
