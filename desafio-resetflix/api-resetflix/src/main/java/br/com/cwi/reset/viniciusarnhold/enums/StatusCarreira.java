@@ -1,4 +1,4 @@
-package br.com.cwi.reset.viniciusarnhold;
+package br.com.cwi.reset.viniciusarnhold.enums;
 
 public enum StatusCarreira {
     EM_ATIVIDADE("Em atividade"),
