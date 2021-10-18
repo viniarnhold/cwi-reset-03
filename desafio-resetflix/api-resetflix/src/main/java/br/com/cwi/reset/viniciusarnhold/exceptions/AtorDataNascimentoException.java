@@ -1,8 +1,8 @@
 package br.com.cwi.reset.viniciusarnhold.exceptions;
 
-public class DataNascimentoException extends Exception{
+public class AtorDataNascimentoException extends Exception{
 
-    public DataNascimentoException() {
+    public AtorDataNascimentoException() {
         super("Não é possível cadastrar atores não nascidos.");
     }
 }

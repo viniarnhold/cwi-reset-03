@@ -51,4 +51,14 @@ public class ProfissionalCinema {
     public void setAnoInicioAtividade(Integer anoInicioAtividade) {
         this.anoInicioAtividade = anoInicioAtividade;
     }
+
+    @Override
+    public String toString() {
+        return "" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", dataNascimento=" + dataNascimento +
+                ", anoInicioAtividade=" + anoInicioAtividade +
+                '}';
+    }
 }

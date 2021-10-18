@@ -47,13 +47,13 @@ public class AtorService {
         LocalDate dataAtual = LocalDate.now();
 
         if(dataAtual.isBefore(atorRequest.getDataNascimento())){
-            throw new DataNascimentoException();
+            throw new AtorDataNascimentoException();
         }
 
         Integer anoNascimento = atorRequest.getDataNascimento().getYear();
 
         if(atorRequest.getAnoInicioAtividade() < anoNascimento){
-            throw new AnoInicioAtividadeException();
+            throw new AtorAnoInicioAtividadeException();
         }
 
         for(Ator atorCadastrado : fakeDatabase.recuperaAtores()){
@@ -71,7 +71,7 @@ public class AtorService {
 
         for(Ator ator : fakeDatabase.recuperaAtores()){
 
-            if(ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)){
+            if(ator.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE){
                 atoresEmAtividade.add(ator);
             }
             if(atoresEmAtividade.size() == 0){

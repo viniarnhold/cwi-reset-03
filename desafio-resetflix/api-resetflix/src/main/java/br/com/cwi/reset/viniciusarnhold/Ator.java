@@ -24,4 +24,11 @@ public class Ator extends ProfissionalCinema{
     public void setStatusCarreira(StatusCarreira statusCarreira) {
         this.statusCarreira = statusCarreira;
     }
+
+    @Override
+    public String toString() {
+        return "Ator{" +
+                "statusCarreira=" + statusCarreira +
+                ", " + super.toString();
+    }
 }

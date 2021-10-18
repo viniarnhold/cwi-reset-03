@@ -1,5 +1,7 @@
 package br.com.cwi.reset.viniciusarnhold;
 
+import br.com.cwi.reset.viniciusarnhold.exceptions.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,39 +19,39 @@ public class DiretorService {
         if (!diretorRequest.getNome().equals(null)) {
             diretor.setNome(diretorRequest.getNome());
         } else {
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo nome");
+            throw new CampoObrigatorioNomeException();
         }
 
         if (!diretorRequest.getDataNascimento().equals(null)) {
             diretor.setDataNascimento(diretorRequest.getDataNascimento());
         } else {
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo dataNascimento");
+            throw new CampoObrigatorioDataNascimento();
         }
 
         if (!diretorRequest.getAnoInicioAtividade().equals(null)) {
             diretor.setAnoInicioAtividade(diretorRequest.getAnoInicioAtividade());
         } else {
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo anoInicioAtividade");
+            throw new CampoObrigatorioAnoInicioAtividadeException();
         }
 
         if(diretorRequest.getNome().split(" ").length < 2){
-            throw new Exception("Deve ser informado no mínimo nome e sobrenome para o diretor");
+            throw new NomeESobrenomeException();
         }
         LocalDate dataAtual = LocalDate.now();
 
         if(dataAtual.isBefore(diretorRequest.getDataNascimento())){
-            throw new Exception("Não é possível cadastrar diretores não nascidos.");
+            throw new DiretorDataNascimentoException();
         }
 
         Integer anoNascimento = diretorRequest.getDataNascimento().getYear();
 
         if(diretorRequest.getAnoInicioAtividade() < anoNascimento){
-            throw new Exception("Ano de início de atividade inválido para o diretor cadastrado.");
+            throw new DiretorAnoInicioAtividadeException();
         }
 
         for(Diretor diretorCadastrado : fakeDatabase.recuperaDiretores()){
             if(diretorCadastrado.getNome().equalsIgnoreCase(diretorRequest.getNome())){
-                throw new Exception("Já existe um ator cadastrado para o nome " + diretorRequest.getNome() + ".");
+                throw new DiretorCadastradoException(diretorCadastrado.getNome());
             }
         }
 
@@ -63,7 +65,7 @@ public class DiretorService {
                 diretores.add(diretor);
 
                 if(diretores.size() == 0){
-                    throw new Exception("Nenhum diretor cadastrado, favor cadastar diretores.");
+                    throw new DiretorNaoCadastradoException();
                 }
             }
             return diretores;
@@ -75,7 +77,7 @@ public class DiretorService {
                 if(diretor.getNome().equals(filtroNome)) {
                         diretores.add(diretor);
                     if (diretores.size() == 0) {
-                        throw new Exception("Diretor não encontrado com filtro " + filtroNome + ", favor informar outro nome");
+                        throw new DiretorNaoEncontradoNomeException(filtroNome);
                     }
                 }
             }
@@ -90,7 +92,7 @@ public class DiretorService {
             }
         }
         if(diretorConsultado == null) {
-            throw new Exception("Nenhum diretor encontrado com o parâmetro " + id + ", favor verifique os parâmetros informados.");
+            throw new DiretorNaoEncontradoIdException(id);
         }
         return diretorConsultado;
     }
