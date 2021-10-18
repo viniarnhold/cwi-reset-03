@@ -29,10 +29,4 @@ public class Ator extends ProfissionalCinema{
         this.statusCarreira = statusCarreira;
     }
 
-    @Override
-    public String toString() {
-        return "Ator{" +
-                "statusCarreira=" + statusCarreira +
-                ", " + super.toString();
-    }
 }

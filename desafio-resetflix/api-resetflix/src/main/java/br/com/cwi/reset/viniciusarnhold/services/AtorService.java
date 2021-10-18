@@ -91,10 +91,10 @@ public class AtorService {
                 if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
                     atoresEmAtividade.add(ator);
                 }
-                if (atoresEmAtividade.size() == 0) {
-                    throw new AtorNaoEncontradoNomeException(filtroNome);
-                }
             }
+        }
+        if (atoresEmAtividade.size() == 0) {
+            throw new AtorNaoEncontradoNomeException(filtroNome);
         }
         return atoresEmAtividade;
     }

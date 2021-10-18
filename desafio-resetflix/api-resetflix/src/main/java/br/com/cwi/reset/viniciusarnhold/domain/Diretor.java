@@ -14,4 +14,6 @@ public class Diretor extends ProfissionalCinema{
     public Diretor() {
         this.id = ++ultimoId;
     }
+
+
 }
