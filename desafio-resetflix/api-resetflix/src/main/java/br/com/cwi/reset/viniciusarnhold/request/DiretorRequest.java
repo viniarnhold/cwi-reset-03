@@ -1,4 +1,4 @@
-package br.com.cwi.reset.viniciusarnhold;
+package br.com.cwi.reset.viniciusarnhold.request;
 
 import java.time.LocalDate;
 

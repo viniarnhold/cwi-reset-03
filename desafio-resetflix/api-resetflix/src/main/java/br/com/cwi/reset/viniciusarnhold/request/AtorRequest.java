@@ -1,4 +1,4 @@
-package br.com.cwi.reset.viniciusarnhold;
+package br.com.cwi.reset.viniciusarnhold.request;
 
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
 

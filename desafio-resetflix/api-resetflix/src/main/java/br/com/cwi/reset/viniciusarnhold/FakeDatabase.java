@@ -1,5 +1,8 @@
 package br.com.cwi.reset.viniciusarnhold;
 
+import br.com.cwi.reset.viniciusarnhold.domain.Ator;
+import br.com.cwi.reset.viniciusarnhold.domain.Diretor;
+
 import java.util.ArrayList;
 import java.util.List;
 

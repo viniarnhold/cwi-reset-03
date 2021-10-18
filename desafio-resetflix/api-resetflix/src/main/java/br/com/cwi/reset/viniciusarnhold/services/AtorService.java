@@ -1,5 +1,8 @@
-package br.com.cwi.reset.viniciusarnhold;
+package br.com.cwi.reset.viniciusarnhold.services;
 
+import br.com.cwi.reset.viniciusarnhold.request.AtorRequest;
+import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
+import br.com.cwi.reset.viniciusarnhold.domain.Ator;
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
 import br.com.cwi.reset.viniciusarnhold.exceptions.*;
 

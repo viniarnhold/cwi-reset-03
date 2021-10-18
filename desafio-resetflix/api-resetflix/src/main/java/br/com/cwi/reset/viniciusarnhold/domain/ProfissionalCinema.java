@@ -1,20 +1,17 @@
-package br.com.cwi.reset.viniciusarnhold;
+package br.com.cwi.reset.viniciusarnhold.domain;
 
 import java.time.LocalDate;
 
 public class ProfissionalCinema {
-    private Integer id;
+    protected Integer id;
     private String nome;
     private LocalDate dataNascimento;
     private Integer anoInicioAtividade;
 
-    static int ultimoId = 0;
 
     public ProfissionalCinema(){
-        this.id = ++ ultimoId;
     }
     public ProfissionalCinema(String nome, LocalDate dataNascimento, Integer anoInicioAtividade) {
-        this.id = ++ ultimoId;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.anoInicioAtividade = anoInicioAtividade;

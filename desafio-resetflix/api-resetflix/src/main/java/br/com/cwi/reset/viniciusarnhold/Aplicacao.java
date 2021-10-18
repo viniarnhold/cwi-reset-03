@@ -1,6 +1,12 @@
 package br.com.cwi.reset.viniciusarnhold;
 
+import br.com.cwi.reset.viniciusarnhold.domain.Ator;
+import br.com.cwi.reset.viniciusarnhold.domain.Diretor;
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
+import br.com.cwi.reset.viniciusarnhold.request.AtorRequest;
+import br.com.cwi.reset.viniciusarnhold.request.DiretorRequest;
+import br.com.cwi.reset.viniciusarnhold.services.AtorService;
+import br.com.cwi.reset.viniciusarnhold.services.DiretorService;
 
 import java.time.LocalDate;
 import java.time.Month;
@@ -12,6 +18,7 @@ public class Aplicacao {
         FakeDatabase fakeDatabase = new FakeDatabase();
 
         AtorService atorService = new AtorService(fakeDatabase);
+        DiretorService diretorService = new DiretorService(fakeDatabase);
 
         //Cadastro primeiro ator
         String nome1 = "Will Smith";
@@ -50,5 +57,19 @@ public class Aplicacao {
 
         System.out.println(atorService.consultarAtores());
         System.out.println("");
+
+        DiretorRequest diretorRequest1 = new DiretorRequest("Quentin Tarantino", LocalDate.of(1963,03,27), 1987);
+        DiretorRequest diretorRequest2 = new DiretorRequest("Steven Spielberg", LocalDate.of(1946,12,18), 1971);
+
+
+
+        diretorService.cadastrarDiretor(diretorRequest1);
+        diretorService.cadastrarDiretor(diretorRequest2);
+
+        List<Diretor> diretores = fakeDatabase.recuperaDiretores();
+
+        System.out.println(diretores);
+
+        System.out.println(diretorService.listarDiretores("Quentin Tarantino"));
     }
 }
