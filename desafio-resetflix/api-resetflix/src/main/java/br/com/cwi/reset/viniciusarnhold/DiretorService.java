@@ -1,5 +1,6 @@
 package br.com.cwi.reset.viniciusarnhold;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,27 @@ public class DiretorService {
             diretor.setAnoInicioAtividade(diretorRequest.getAnoInicioAtividade());
         } else {
             throw new Exception("Campo obrigatório não informado. Favor informar o campo anoInicioAtividade");
+        }
+
+        if(diretorRequest.getNome().split(" ").length < 2){
+            throw new Exception("Deve ser informado no mínimo nome e sobrenome para o diretor");
+        }
+        LocalDate dataAtual = LocalDate.now();
+
+        if(dataAtual.isBefore(diretorRequest.getDataNascimento())){
+            throw new Exception("Não é possível cadastrar diretores não nascidos.");
+        }
+
+        Integer anoNascimento = diretorRequest.getDataNascimento().getYear();
+
+        if(diretorRequest.getAnoInicioAtividade() < anoNascimento){
+            throw new Exception("Ano de início de atividade inválido para o diretor cadastrado.");
+        }
+
+        for(Diretor diretorCadastrado : fakeDatabase.recuperaDiretores()){
+            if(diretorCadastrado.getNome().equalsIgnoreCase(diretorRequest.getNome())){
+                throw new Exception("Já existe um ator cadastrado para o nome " + diretorRequest.getNome() + ".");
+            }
         }
 
         fakeDatabase.persisteDiretor(diretor);

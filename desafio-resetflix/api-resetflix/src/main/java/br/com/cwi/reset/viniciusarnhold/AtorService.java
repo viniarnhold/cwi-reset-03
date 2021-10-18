@@ -1,7 +1,9 @@
 package br.com.cwi.reset.viniciusarnhold;
 
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
+import br.com.cwi.reset.viniciusarnhold.exceptions.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,26 +20,48 @@ public class AtorService {
         if(!atorRequest.getNome().equals(null)) {
             ator.setNome(atorRequest.getNome());
         } else {
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo nome");
+            throw new CampoObrigatorioNomeException();
         }
 
         if(!atorRequest.getDataNascimento().equals(null)){
             ator.setDataNascimento(atorRequest.getDataNascimento());
         } else {
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo dataNascimento");
+            throw new CampoObrigatorioDataNascimento();
         }
 
         if(!atorRequest.getStatusCarreira().equals(null)){
             ator.setStatusCarreira(atorRequest.getStatusCarreira());
         } else {
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo statusCarreira");
+            throw new CampoObrigatorioStatusCarreira();
         }
 
         if(!atorRequest.getAnoInicioAtividade().equals(null)) {
             ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
         } else{
-            throw new Exception("Campo obrigatório não informado. Favor informar o campo anoInicioAtividade");
+            throw new CampoObrigatorioAnoInicioAtividadeException();
         }
+
+        if(atorRequest.getNome().split(" ").length < 2){
+            throw new NomeESobrenomeException();
+        }
+        LocalDate dataAtual = LocalDate.now();
+
+        if(dataAtual.isBefore(atorRequest.getDataNascimento())){
+            throw new DataNascimentoException();
+        }
+
+        Integer anoNascimento = atorRequest.getDataNascimento().getYear();
+
+        if(atorRequest.getAnoInicioAtividade() < anoNascimento){
+            throw new AnoInicioAtividadeException();
+        }
+
+        for(Ator atorCadastrado : fakeDatabase.recuperaAtores()){
+            if(atorCadastrado.getNome().equalsIgnoreCase(atorRequest.getNome())){
+                throw new AtorCadastradoException(atorRequest.getNome());
+            }
+        }
+
 
         fakeDatabase.persisteAtor(ator);
     }
@@ -51,7 +75,7 @@ public class AtorService {
                 atoresEmAtividade.add(ator);
             }
             if(atoresEmAtividade.size() == 0){
-                throw new Exception("Nenhum ator cadastrado, favor cadastar atores.");
+                throw new AtorNaoCadastradoException();
             }
         }
         return atoresEmAtividade;
@@ -65,7 +89,7 @@ public class AtorService {
                     atoresEmAtividade.add(ator);
                 }
                 if (atoresEmAtividade.size() == 0) {
-                    throw new Exception("Ator não encontrado com filtro " + filtroNome + ", favor informar outro nome");
+                    throw new AtorNaoEncontradoNomeException(filtroNome);
                 }
             }
         }
@@ -80,7 +104,7 @@ public class AtorService {
             }
         }
         if(atorConsultado == null) {
-            throw new Exception("Nenhum ator encontrado com o parâmetro " + id + ", favor verifique os parâmetros informados.");
+            throw new AtorNaoEncontradoIdException(id);
         }
         return atorConsultado;
     }
@@ -88,16 +112,12 @@ public class AtorService {
     public List consultarAtores() throws Exception{
         List<Ator> atores = new ArrayList<>();
 
-        try {
             for(Ator ator : fakeDatabase.recuperaAtores()){
                 atores.add(ator);
             }
             if(atores.size() == 0){
-                throw new Exception();
+                throw new AtorNaoCadastradoException();
             }
-        } catch (Exception e){
-            System.out.println("Nenhum ator cadastrado, favor cadastar atores.");
-        }
         return atores;
     }
 
