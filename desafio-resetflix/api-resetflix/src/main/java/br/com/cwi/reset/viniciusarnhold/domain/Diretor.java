@@ -10,10 +10,4 @@ public class Diretor extends ProfissionalCinema{
         super(name, dataNascimento, anoInicioAtividade);
         this.id = ++ultimoId;
     }
-
-    public Diretor() {
-        this.id = ++ultimoId;
-    }
-
-
 }

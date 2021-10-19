@@ -18,21 +18,20 @@ public class DiretorService {
     }
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws Exception {
-        Diretor diretor = new Diretor();
         if (!diretorRequest.getNome().equals(null)) {
-            diretor.setNome(diretorRequest.getNome());
+            String nome = diretorRequest.getNome();
         } else {
             throw new CampoObrigatorioNomeException();
         }
 
         if (!diretorRequest.getDataNascimento().equals(null)) {
-            diretor.setDataNascimento(diretorRequest.getDataNascimento());
+            LocalDate dataNascimento = diretorRequest.getDataNascimento();
         } else {
             throw new CampoObrigatorioDataNascimento();
         }
 
         if (!diretorRequest.getAnoInicioAtividade().equals(null)) {
-            diretor.setAnoInicioAtividade(diretorRequest.getAnoInicioAtividade());
+            Integer anoInicioAtividade = diretorRequest.getAnoInicioAtividade();
         } else {
             throw new CampoObrigatorioAnoInicioAtividadeException();
         }
@@ -57,6 +56,8 @@ public class DiretorService {
                 throw new DiretorCadastradoException(diretorCadastrado.getNome());
             }
         }
+
+        Diretor diretor = new Diretor(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
 
         fakeDatabase.persisteDiretor(diretor);
     }
