@@ -45,11 +45,8 @@ public class EstudioService {
             throw new CampoObrigatorioStatusAtividade();
         }
 
-        Estudio estudioEncontrado = null;
         for(Estudio estudio : fakeDatabase.recuperaEstudios()){
-            if(!estudioRequest.getNome().equals(estudio.getNome())){
-                estudioEncontrado = estudio;
-            } else {
+            if(estudioRequest.getNome().equals(estudio.getNome())){
                 throw new EstudioEncontradoException(estudioRequest.getNome());
             }
         }
@@ -59,7 +56,7 @@ public class EstudioService {
             throw new EstudioDataCriacaoException();
         }
 
-        Estudio estudio = new Estudio(estudioEncontrado.getNome(), estudioEncontrado.getDescricao(), estudioRequest.getDataCriacao(),
+        Estudio estudio = new Estudio(estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(),
                 estudioRequest.getStatusAtividade());
 
         fakeDatabase.persisteEstudio(estudio);
