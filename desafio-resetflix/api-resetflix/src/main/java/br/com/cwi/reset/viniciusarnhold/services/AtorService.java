@@ -19,27 +19,26 @@ public class AtorService {
     }
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
-        Ator ator = new Ator();
         if(!atorRequest.getNome().equals(null)) {
-            ator.setNome(atorRequest.getNome());
+            String Nome = (atorRequest.getNome());
         } else {
             throw new CampoObrigatorioNomeException();
         }
 
         if(!atorRequest.getDataNascimento().equals(null)){
-            ator.setDataNascimento(atorRequest.getDataNascimento());
+            LocalDate dataNascimento = (atorRequest.getDataNascimento());
         } else {
             throw new CampoObrigatorioDataNascimento();
         }
 
         if(!atorRequest.getStatusCarreira().equals(null)){
-            ator.setStatusCarreira(atorRequest.getStatusCarreira());
+            StatusCarreira statusCarreira = (atorRequest.getStatusCarreira());
         } else {
             throw new CampoObrigatorioStatusCarreira();
         }
 
         if(!atorRequest.getAnoInicioAtividade().equals(null)) {
-            ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
+            Integer anoInicioAtividade = (atorRequest.getAnoInicioAtividade());
         } else{
             throw new CampoObrigatorioAnoInicioAtividadeException();
         }
@@ -65,6 +64,8 @@ public class AtorService {
             }
         }
 
+        Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getAnoInicioAtividade(),
+        atorRequest.getStatusCarreira());
 
         fakeDatabase.persisteAtor(ator);
     }

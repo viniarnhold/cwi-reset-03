@@ -10,10 +10,6 @@ public class Ator extends ProfissionalCinema{
 
     static int ultimoId = 0;
 
-    public Ator() {
-        this.id = ++ultimoId;
-    }
-
     public Ator(String name, LocalDate dataNascimento,
                 Integer anoInicioAtividade, StatusCarreira statusCarreira) {
         super(name, dataNascimento, anoInicioAtividade);

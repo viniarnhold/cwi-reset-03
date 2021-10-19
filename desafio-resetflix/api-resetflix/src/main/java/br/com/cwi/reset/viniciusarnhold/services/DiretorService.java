@@ -87,7 +87,7 @@ public class DiretorService {
             return diretores;
         }
 
-    public Diretor consultarAtor(Integer id) throws Exception{
+    public Diretor consultarDiretor(Integer id) throws Exception{
         Diretor diretorConsultado = null;
         for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
             if (diretor.getId() == id) {
