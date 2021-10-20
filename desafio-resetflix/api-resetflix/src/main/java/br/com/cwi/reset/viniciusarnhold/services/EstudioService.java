@@ -21,29 +21,10 @@ public class EstudioService {
     }
 
     public void criarEstudio(EstudioRequest estudioRequest) throws Exception {
-        if (!estudioRequest.getNome().equals(null)){
-            String nome = estudioRequest.getNome();
-        } else {
-            throw new CampoObrigatorioNomeException();
-        }
-
-        if (!estudioRequest.getDescricao().equals(null)){
-            String descricao = estudioRequest.getDescricao();
-        } else {
-            throw new CampoObrigatorioDescricaoException();
-        }
-
-        if (!estudioRequest.getDataCriacao().equals(null)){
-            LocalDate dataCriacao = estudioRequest.getDataCriacao();
-        } else {
-            throw new CampoObrigatorioDataCriacaoException();
-        }
-
-        if (!estudioRequest.getStatusAtividade().equals(null)){
-            StatusAtividade statusAtividade = estudioRequest.getStatusAtividade();
-        } else {
-            throw new CampoObrigatorioStatusAtividade();
-        }
+        if (estudioRequest.getNome() == null){ throw new CampoObrigatorioNomeException(); }
+        if (estudioRequest.getDescricao() == null){ throw new CampoObrigatorioDescricaoException(); }
+        if (estudioRequest.getDataCriacao() == null){ throw new CampoObrigatorioDataCriacaoException(); }
+        if (estudioRequest.getStatusAtividade() == null){ throw new CampoObrigatorioStatusAtividade(); }
 
         for(Estudio estudio : fakeDatabase.recuperaEstudios()){
             if(estudioRequest.getNome().equals(estudio.getNome())){

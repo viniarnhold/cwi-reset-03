@@ -19,29 +19,11 @@ public class AtorService {
     }
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
-        if(!atorRequest.getNome().equals(null)) {
-            String Nome = (atorRequest.getNome());
-        } else {
-            throw new CampoObrigatorioNomeException();
-        }
 
-        if(!atorRequest.getDataNascimento().equals(null)){
-            LocalDate dataNascimento = (atorRequest.getDataNascimento());
-        } else {
-            throw new CampoObrigatorioDataNascimento();
-        }
-
-        if(!atorRequest.getStatusCarreira().equals(null)){
-            StatusCarreira statusCarreira = (atorRequest.getStatusCarreira());
-        } else {
-            throw new CampoObrigatorioStatusCarreira();
-        }
-
-        if(!atorRequest.getAnoInicioAtividade().equals(null)) {
-            Integer anoInicioAtividade = (atorRequest.getAnoInicioAtividade());
-        } else{
-            throw new CampoObrigatorioAnoInicioAtividadeException();
-        }
+        if(atorRequest.getNome() == null) { throw new CampoObrigatorioNomeException(); }
+        if(atorRequest.getDataNascimento() == null){ throw new CampoObrigatorioDataNascimento(); }
+        if(atorRequest.getStatusCarreira() == null){ throw new CampoObrigatorioStatusCarreira(); }
+        if(atorRequest.getAnoInicioAtividade() == null) { throw new CampoObrigatorioAnoInicioAtividadeException(); }
 
         if(atorRequest.getNome().split(" ").length < 2){
             throw new NomeESobrenomeException();
