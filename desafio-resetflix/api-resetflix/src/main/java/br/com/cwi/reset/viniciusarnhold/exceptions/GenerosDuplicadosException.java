@@ -4,8 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)
-public class EstudioEncontradoException extends Exception{
-    public EstudioEncontradoException(String nome) {
-        super("Já existe um estúdio cadastrado para o nome " + nome);
+public class GenerosDuplicadosException extends Exception{
+
+    public GenerosDuplicadosException() {
+        super("Não é permitido informar o mesmo gênero mais de uma vez para o mesmo filme.");
     }
 }

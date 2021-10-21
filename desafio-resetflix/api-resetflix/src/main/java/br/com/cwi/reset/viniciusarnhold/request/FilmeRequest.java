@@ -1,39 +1,30 @@
-package br.com.cwi.reset.viniciusarnhold.domain;
+package br.com.cwi.reset.viniciusarnhold.request;
 
+import br.com.cwi.reset.viniciusarnhold.domain.PersonagemAtor;
 import br.com.cwi.reset.viniciusarnhold.enums.Genero;
 
 import java.util.List;
 
-public class Filme {
-    private Integer id;
+public class FilmeRequest {
     private String nome;
     private Integer anoLancamento;
     private String capaFilme;
     private List<Genero> generos;
     private Integer idDiretor;
-    private List<PersonagemAtor> personagens;
+    private Integer idEstudio;
     private String resumo;
+    private List<PersonagemAtor> personagens;
 
-    static int ultimoId = 0;
-
-    public Filme(String nome, Integer anoLancamento, String capaFilme,
-                 List<Genero> generos, Integer idDiretor, List<PersonagemAtor> personagens, String resumo) {
-        this.id = ++ultimoId;
+    public FilmeRequest(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos,
+                        Integer idDiretor, Integer idEstudio, String resumo, List<PersonagemAtor> personagens) {
         this.nome = nome;
         this.anoLancamento = anoLancamento;
         this.capaFilme = capaFilme;
         this.generos = generos;
         this.idDiretor = idDiretor;
-        this.personagens = personagens;
+        this.idEstudio = idEstudio;
         this.resumo = resumo;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.personagens = personagens;
     }
 
     public String getNome() {
@@ -76,12 +67,12 @@ public class Filme {
         this.idDiretor = idDiretor;
     }
 
-    public List<PersonagemAtor> getPersonagens() {
-        return personagens;
+    public Integer getIdEstudio() {
+        return idEstudio;
     }
 
-    public void setPersonagens(List<PersonagemAtor> personagens) {
-        this.personagens = personagens;
+    public void setIdEstudio(Integer idEstudio) {
+        this.idEstudio = idEstudio;
     }
 
     public String getResumo() {
@@ -90,5 +81,13 @@ public class Filme {
 
     public void setResumo(String resumo) {
         this.resumo = resumo;
+    }
+
+    public List<PersonagemAtor> getPersonagens() {
+        return personagens;
+    }
+
+    public void setPersonagens(List<PersonagemAtor> personagens) {
+        this.personagens = personagens;
     }
 }

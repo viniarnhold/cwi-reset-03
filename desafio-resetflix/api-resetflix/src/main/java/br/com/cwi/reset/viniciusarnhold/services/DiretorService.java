@@ -87,5 +87,18 @@ public class DiretorService {
         return diretorConsultado;
     }
 
+    public Diretor consultarDiretor(String nome) throws Exception{
+        Diretor diretorConsultado = null;
+        for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
+            if (diretor.getNome().equals(nome)) {
+                diretorConsultado = diretor;
+            }
+        }
+        if(diretorConsultado == null) {
+            throw new DiretorNaoEncontradoNomeException(nome);
+        }
+        return diretorConsultado;
+    }
+
     // Demais métodos da classe
 }
