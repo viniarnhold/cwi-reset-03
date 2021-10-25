@@ -1,65 +1,72 @@
 package br.com.cwi.reset.viniciusarnhold.services;
 
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.*;
 import br.com.cwi.reset.viniciusarnhold.exceptions.*;
+import br.com.cwi.reset.viniciusarnhold.repository.FilmeRepository;
+import br.com.cwi.reset.viniciusarnhold.repository.PersonagemAtorRepository;
 import br.com.cwi.reset.viniciusarnhold.request.FilmeRequest;
+import br.com.cwi.reset.viniciusarnhold.request.PersonagemRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class FilmeService {
 
-    private FakeDatabase fakeDatabase;
+    @Autowired
+    private FilmeRepository filmeRepository;
+    @Autowired
     private DiretorService diretorService;
+    @Autowired
     private EstudioService estudioService;
+    @Autowired
     private AtorService atorService;
+    @Autowired
+    private PersonagemAtorRepository personagemAtorRepository;
 
-    public FilmeService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+//    public Diretor consultarDiretorId(Integer idDiretor) throws Exception{
+//        Optional<Diretor> diretorOptional =
+//        for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
+//            if (diretor.getId() == idDiretor) {
+//                diretorConsultado = diretor;
+//                break;
+//            }
+//        }
+//        if(diretorConsultado == null) {
+//            throw new DiretorNaoEncontradoIdException(idDiretor);
+//        }
+//        return diretorConsultado;
+//    }
 
-    public Diretor consultarDiretorId(Integer idDiretor) throws Exception{
-        Diretor diretorConsultado = null;
-        for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
-            if (diretor.getId() == idDiretor) {
-                diretorConsultado = diretor;
-                break;
-            }
-        }
-        if(diretorConsultado == null) {
-            throw new DiretorNaoEncontradoIdException(idDiretor);
-        }
-        return diretorConsultado;
-    }
+//    public Estudio consultarEstudioId(Integer idEstudio) throws Exception{
+//        Estudio estudioConsultado = null;
+//        for (Estudio estudio : fakeDatabase.recuperaEstudios()) {
+//            if (estudio.getId() == idEstudio) {
+//                estudioConsultado = estudio;
+//                break;
+//            }
+//        }
+//        if(estudioConsultado == null) {
+//            throw new EstudioNaoEncontradoIdException(idEstudio);
+//        }
+//        return estudioConsultado;
+//    }
 
-    public Estudio consultarEstudioId(Integer idEstudio) throws Exception{
-        Estudio estudioConsultado = null;
-        for (Estudio estudio : fakeDatabase.recuperaEstudios()) {
-            if (estudio.getId() == idEstudio) {
-                estudioConsultado = estudio;
-                break;
-            }
-        }
-        if(estudioConsultado == null) {
-            throw new EstudioNaoEncontradoIdException(idEstudio);
-        }
-        return estudioConsultado;
-    }
-
-    public Ator consultarAtorId(Integer idAtor) throws Exception{
-        Ator atorConsultado = null;
-        for (Ator ator : fakeDatabase.recuperaAtores()) {
-            if (ator.getId() == idAtor) {
-                atorConsultado = ator;
-                break;
-            }
-        }
-        if(atorConsultado == null) {
-            throw new AtorNaoEncontradoIdException(idAtor);
-        }
-        return atorConsultado;
-    }
+//    public Ator consultarAtorId(Integer idAtor) throws Exception{
+//        Ator atorConsultado = null;
+//        for (Ator ator : fakeDatabase.recuperaAtores()) {
+//            if (ator.getId() == idAtor) {
+//                atorConsultado = ator;
+//                break;
+//            }
+//        }
+//        if(atorConsultado == null) {
+//            throw new AtorNaoEncontradoIdException(idAtor);
+//        }
+//        return atorConsultado;
+//    }
 
     public void criarFilme(FilmeRequest filmeRequest) throws Exception {
 
@@ -72,11 +79,29 @@ public class FilmeService {
         if(filmeRequest.getResumo() == null){ throw new CampoObrigatorioException("resumo"); }
         if(filmeRequest.getPersonagens() == null) { throw new CampoObrigatorioException("personagens"); }
 
-        //Estudio estudioDoFilme = consultarEstudioId(filmeRequest.getIdEstudio());
-        //Diretor diretorDoFilme = consultarDiretorId(filmeRequest.getIdDiretor());
+        Estudio estudioDoFilme = estudioService.consultarEstudio(filmeRequest.getIdEstudio());
+        Diretor diretorDoFilme = diretorService.consultarDiretor(filmeRequest.getIdDiretor());
 
-        for(PersonagemAtor personagem : filmeRequest.getPersonagens()){
-            consultarAtorId(personagem.getId());
+
+        List<PersonagemAtor> personagens = new ArrayList<>();
+        for(PersonagemRequest personagem : filmeRequest.getPersonagens()){
+            if(personagem.getDescricaoPersonagem() == null) {
+                throw new CampoObrigatorioException("descricao");
+            }
+            if(personagem.getNomePersonagem() == null){
+                throw new CampoObrigatorioException("nomePersonagem");
+            }
+            if(personagem.getIdAtor() == null){
+                throw new CampoObrigatorioException("idAtor");
+            }
+            if(personagem.getTipoAtuacao() == null){
+                throw new CampoObrigatorioException("tipoAtuacao");
+            }
+
+            PersonagemAtor personagemAtor = new PersonagemAtor(atorService.consultarAtor(personagem.getIdAtor()), personagem.getNomePersonagem(),
+                    personagem.getDescricaoPersonagem(), personagem.getTipoAtuacao());
+            personagemAtorRepository.save(personagemAtor);
+            personagens.add(personagemAtor);
         }
         if(filmeRequest.getGeneros().size() == 0){
             throw new GeneroVazioException();
@@ -88,7 +113,7 @@ public class FilmeService {
                 }
             }
         }
-        List<PersonagemAtor> personagens = filmeRequest.getPersonagens();
+
         for(int i = 0; i < filmeRequest.getPersonagens().size(); i++){
             for(int j = i + 1 ; j < filmeRequest.getPersonagens().size(); j++){
                 if (personagens.get(i).getId() == personagens.get(j).getId() && personagens.get(i).getNomePersonagem().equals(personagens.get(j).getNomePersonagem())){
@@ -98,30 +123,30 @@ public class FilmeService {
         }
 
         Filme filme = new Filme(filmeRequest.getNome(), filmeRequest.getAnoLancamento(), filmeRequest.getCapaFilme(), filmeRequest.getGeneros(),
-                filmeRequest.getIdEstudio(), filmeRequest.getIdDiretor(), filmeRequest.getPersonagens(), filmeRequest.getResumo());
+                estudioDoFilme, diretorDoFilme, personagens, filmeRequest.getResumo());
 
-        fakeDatabase.persisteFilme(filme);
+        filmeRepository.save(filme);
     }
 
     public List<Filme> consultarFilmes(String nomeFilme, String nomeDiretor, String nomePersonagem, String nomeAtor) throws Exception {
         List<Filme> filmesConsultados = new ArrayList<>();
         if(nomeFilme != null) {
-            for (Filme filme : fakeDatabase.recuperaFilmes()) {
+            for (Filme filme : filmeRepository.findAll()) {
                 if (filme.getNome().equals(nomeFilme)) {
                     filmesConsultados.add(filme);
                 }
             }
         }
-//        if(nomeDiretor != null) { ========================================================================
-//            Diretor diretor = diretorService.consultarDiretor(nomeDiretor);
-//            for (Filme filme : fakeDatabase.recuperaFilmes()) {
-//                if (diretor.getId() == filme.getAnoLancamento()) {
-//                    filmesConsultados.add(filme);
-//                } PRECISA ARRUMAR ISSO AQUI---------------------------------------------------------------
-//            }
-//        }
+        if(nomeDiretor != null) {
+            Diretor diretor = diretorService.consultarDiretor(nomeDiretor);
+            for (Filme filme : filmeRepository.findAll()) {
+                if (diretor.getNome().equals(nomeDiretor)) {
+                    filmesConsultados.add(filme);
+                }
+            }
+        }
         if(nomePersonagem != null) {
-            for (Filme filme : fakeDatabase.recuperaFilmes()) {
+            for (Filme filme : filmeRepository.findAll()) {
                 for (PersonagemAtor personagem : filme.getPersonagens()) {
                     if (personagem.getNomePersonagem().equals(nomePersonagem)) {
                         filmesConsultados.add(filme);
@@ -130,7 +155,7 @@ public class FilmeService {
             }
         }
         if(nomeAtor != null){
-            for(Filme filme : fakeDatabase.recuperaFilmes()) {
+            for(Filme filme : filmeRepository.findAll()) {
                 for (PersonagemAtor personagem : filme.getPersonagens()) {
                     if (personagem.getAtor().equals(nomeAtor)) {
                         filmesConsultados.add(filme);

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DiretorService {
@@ -75,29 +76,21 @@ public class DiretorService {
         }
 
     public Diretor consultarDiretor(Integer id) throws Exception{
-        Diretor diretorConsultado = null;
-        for (Diretor diretor : diretorRepository.findAll()) {
-            if (diretor.getId() == id) {
-                diretorConsultado = diretor;
-            }
-        }
-        if(diretorConsultado == null) {
+        Optional<Diretor> diretorOptional = diretorRepository.findById(id);
+        if (diretorOptional.isPresent()) {
+            return diretorOptional.get();
+        } else {
             throw new DiretorNaoEncontradoIdException(id);
         }
-        return diretorConsultado;
     }
 
     public Diretor consultarDiretor(String nome) throws Exception{
-        Diretor diretorConsultado = null;
-        for (Diretor diretor : diretorRepository.findAll()) {
-            if (diretor.getNome().equals(nome)) {
-                diretorConsultado = diretor;
-            }
-        }
-        if(diretorConsultado == null) {
+        Optional<Diretor> diretorOptional = diretorRepository.findByNome(nome);
+        if (diretorOptional.isPresent()) {
+            return diretorOptional.get();
+        } else {
             throw new DiretorNaoEncontradoNomeException(nome);
         }
-        return diretorConsultado;
     }
 
     // Demais métodos da classe

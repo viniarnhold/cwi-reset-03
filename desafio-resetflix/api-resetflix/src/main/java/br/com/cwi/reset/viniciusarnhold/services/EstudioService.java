@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstudioService {
@@ -41,17 +42,16 @@ public class EstudioService {
 
     }
 
-    public List listarEstudio() throws Exception {
+    public List<Estudio> listarEstudio() throws Exception {
+        List<Estudio> estudios = estudioRepository.findAll();
 
-            List<Estudio> estudios = estudioRepository.findAll();
-
-            if(estudios.size() == 0){
-                throw new EstudioNaoCadastradoException();
-            }
+        if(estudios.size() == 0){
+            throw new EstudioNaoCadastradoException();
+        }
         return estudios;
     }
 
-    public List listarEstudio(String filtroNome) throws Exception {
+    public List<Estudio> listarEstudio(String filtroNome) throws Exception {
         List<Estudio> estudios = new ArrayList<>();
 
         for(Estudio estudio : estudioRepository.findAll()){
@@ -66,15 +66,12 @@ public class EstudioService {
     }
 
     public Estudio consultarEstudio(Integer id) throws Exception {
-        Estudio estudioEncontrado = null;
-        for(Estudio estudio : estudioRepository.findAll()){
-            if (estudio.getId() == id){
-                estudioEncontrado = estudio;
-            } else {
-                throw new EstudioNaoEncontradoIdException(id);
-            }
+        Optional<Estudio> estudioOptional = estudioRepository.findById(id);
+        if (estudioOptional.isPresent()){
+            return estudioOptional.get();
+        } else {
+            throw new EstudioNaoEncontradoIdException(id);
         }
-        return estudioEncontrado;
     }
 
 }

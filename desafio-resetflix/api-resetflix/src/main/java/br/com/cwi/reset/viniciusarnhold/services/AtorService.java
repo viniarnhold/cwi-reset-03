@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AtorService {
@@ -81,28 +82,20 @@ public class AtorService {
         return atoresEmAtividade;
     }
 
-    public Ator consultarAtor(Integer id) throws Exception{
-        Ator atorConsultado = null;
-        for (Ator ator : atorRepository.findAll()) {
-            if (ator.getId() == id) {
-                atorConsultado = ator;
-            }
-        }
-        if(atorConsultado == null) {
-            throw new AtorNaoEncontradoIdException(id);
-        }
-        return atorConsultado;
+    public Ator consultarAtor(Integer id) throws AtorNaoEncontradoIdException {
+         Optional<Ator> atorOptional = atorRepository.findById(id);
+         if(atorOptional.isPresent()){
+             return atorOptional.get();
+         } else {
+             throw new AtorNaoEncontradoIdException(id);
+         }
     }
 
-    public List consultarAtores() throws Exception{
-        List<Ator> atores = new ArrayList<>();
-
-            for(Ator ator : atorRepository.findAll()){
-                atores.add(ator);
-            }
-            if(atores.size() == 0){
-                throw new AtorNaoCadastradoException();
-            }
+    public List<Ator> consultarAtores() throws AtorNaoCadastradoException {
+        List<Ator> atores = atorRepository.findAll();
+        if(atores.size() == 0){
+            throw new AtorNaoCadastradoException();
+        }
         return atores;
     }
 

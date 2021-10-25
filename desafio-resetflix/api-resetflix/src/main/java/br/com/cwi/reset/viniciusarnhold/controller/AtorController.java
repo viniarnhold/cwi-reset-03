@@ -1,6 +1,5 @@
 package br.com.cwi.reset.viniciusarnhold.controller;
 
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Ator;
 import br.com.cwi.reset.viniciusarnhold.request.AtorRequest;
 import br.com.cwi.reset.viniciusarnhold.services.AtorService;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/atores")

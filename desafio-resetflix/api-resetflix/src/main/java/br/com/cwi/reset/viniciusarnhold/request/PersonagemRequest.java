@@ -5,7 +5,6 @@ import br.com.cwi.reset.viniciusarnhold.enums.TipoAtuacao;
 
 public class PersonagemRequest {
     private Integer idAtor;
-    private Ator ator;
     private String nomePersonagem;
     private String descricaoPersonagem;
     private TipoAtuacao tipoAtuacao;

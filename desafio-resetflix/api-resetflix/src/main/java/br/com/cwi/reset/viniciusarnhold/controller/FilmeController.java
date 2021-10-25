@@ -5,6 +5,7 @@ import br.com.cwi.reset.viniciusarnhold.domain.Filme;
 import br.com.cwi.reset.viniciusarnhold.request.FilmeRequest;
 import br.com.cwi.reset.viniciusarnhold.services.EstudioService;
 import br.com.cwi.reset.viniciusarnhold.services.FilmeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,8 @@ import java.util.List;
 @RequestMapping("/filmes")
 public class FilmeController {
 
+    @Autowired
     private FilmeService filmeService;
-
-    public FilmeController() {
-
-        this.filmeService = new FilmeService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     public ResponseEntity criarFilme(@RequestBody FilmeRequest filmeRequest) throws Exception {
