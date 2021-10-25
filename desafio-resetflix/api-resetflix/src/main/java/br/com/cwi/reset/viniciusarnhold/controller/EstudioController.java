@@ -4,6 +4,7 @@ import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Estudio;
 import br.com.cwi.reset.viniciusarnhold.request.EstudioRequest;
 import br.com.cwi.reset.viniciusarnhold.services.EstudioService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,8 @@ import java.util.List;
 @RequestMapping("/estudios")
 public class EstudioController {
 
+    @Autowired
     private EstudioService estudioService;
-
-    public EstudioController() {
-
-        this.estudioService = new EstudioService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     public ResponseEntity criarEstudio(@RequestBody EstudioRequest estudioRequest) throws Exception {

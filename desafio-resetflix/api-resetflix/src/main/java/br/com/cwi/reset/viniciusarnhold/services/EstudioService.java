@@ -1,24 +1,21 @@
 package br.com.cwi.reset.viniciusarnhold.services;
 
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
-import br.com.cwi.reset.viniciusarnhold.domain.Diretor;
 import br.com.cwi.reset.viniciusarnhold.domain.Estudio;
-import br.com.cwi.reset.viniciusarnhold.enums.StatusAtividade;
 import br.com.cwi.reset.viniciusarnhold.exceptions.*;
+import br.com.cwi.reset.viniciusarnhold.repository.EstudioRepository;
 import br.com.cwi.reset.viniciusarnhold.request.EstudioRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class EstudioService {
 
-    private FakeDatabase fakeDatabase;
-
-    public EstudioService(FakeDatabase fakeDatabase) {
-
-        this.fakeDatabase = fakeDatabase;
-    }
+    @Autowired
+    private EstudioRepository estudioRepository;
 
     public void criarEstudio(EstudioRequest estudioRequest) throws Exception {
         if (estudioRequest.getNome() == null){ throw new CampoObrigatorioNomeException(); }
@@ -26,7 +23,7 @@ public class EstudioService {
         if (estudioRequest.getDataCriacao() == null){ throw new CampoObrigatorioDataCriacaoException(); }
         if (estudioRequest.getStatusAtividade() == null){ throw new CampoObrigatorioStatusAtividade(); }
 
-        for(Estudio estudio : fakeDatabase.recuperaEstudios()){
+        for(Estudio estudio : estudioRepository.findAll()){
             if(estudioRequest.getNome().equals(estudio.getNome())){
                 throw new EstudioEncontradoException(estudioRequest.getNome());
             }
@@ -40,13 +37,13 @@ public class EstudioService {
         Estudio estudio = new Estudio(estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(),
                 estudioRequest.getStatusAtividade());
 
-        fakeDatabase.persisteEstudio(estudio);
+        estudioRepository.save(estudio);
 
     }
 
     public List listarEstudio() throws Exception {
 
-            List<Estudio> estudios = fakeDatabase.recuperaEstudios();
+            List<Estudio> estudios = estudioRepository.findAll();
 
             if(estudios.size() == 0){
                 throw new EstudioNaoCadastradoException();
@@ -57,7 +54,7 @@ public class EstudioService {
     public List listarEstudio(String filtroNome) throws Exception {
         List<Estudio> estudios = new ArrayList<>();
 
-        for(Estudio estudio : fakeDatabase.recuperaEstudios()){
+        for(Estudio estudio : estudioRepository.findAll()){
             if(estudio.getNome().equals(filtroNome)) {
                 estudios.add(estudio);
                 if (estudios.size() == 0) {
@@ -70,7 +67,7 @@ public class EstudioService {
 
     public Estudio consultarEstudio(Integer id) throws Exception {
         Estudio estudioEncontrado = null;
-        for(Estudio estudio : fakeDatabase.recuperaEstudios()){
+        for(Estudio estudio : estudioRepository.findAll()){
             if (estudio.getId() == id){
                 estudioEncontrado = estudio;
             } else {
