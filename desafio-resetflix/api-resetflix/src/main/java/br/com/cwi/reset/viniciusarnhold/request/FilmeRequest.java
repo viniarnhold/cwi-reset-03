@@ -1,6 +1,8 @@
 package br.com.cwi.reset.viniciusarnhold.request;
 
 import br.com.cwi.reset.viniciusarnhold.domain.PersonagemAtor;
+import br.com.cwi.reset.viniciusarnhold.domain.Diretor;
+import br.com.cwi.reset.viniciusarnhold.domain.Estudio;
 import br.com.cwi.reset.viniciusarnhold.enums.Genero;
 
 import java.util.List;
@@ -10,13 +12,13 @@ public class FilmeRequest {
     private Integer anoLancamento;
     private String capaFilme;
     private List<Genero> generos;
-    private Integer idDiretor;
-    private Integer idEstudio;
+    private Diretor idDiretor;
+    private Estudio idEstudio;
     private String resumo;
     private List<PersonagemAtor> personagens;
 
     public FilmeRequest(String nome, Integer anoLancamento, String capaFilme, List<Genero> generos,
-                        Integer idDiretor, Integer idEstudio, String resumo, List<PersonagemAtor> personagens) {
+                        Diretor idDiretor, Estudio idEstudio, String resumo, List<PersonagemAtor> personagens) {
         this.nome = nome;
         this.anoLancamento = anoLancamento;
         this.capaFilme = capaFilme;
@@ -59,19 +61,19 @@ public class FilmeRequest {
         this.generos = generos;
     }
 
-    public Integer getIdDiretor() {
+    public Diretor getIdDiretor() {
         return idDiretor;
     }
 
-    public void setIdDiretor(Integer idDiretor) {
+    public void setIdDiretor(Diretor idDiretor) {
         this.idDiretor = idDiretor;
     }
 
-    public Integer getIdEstudio() {
+    public Estudio getIdEstudio() {
         return idEstudio;
     }
 
-    public void setIdEstudio(Integer idEstudio) {
+    public void setIdEstudio(Estudio idEstudio) {
         this.idEstudio = idEstudio;
     }
 

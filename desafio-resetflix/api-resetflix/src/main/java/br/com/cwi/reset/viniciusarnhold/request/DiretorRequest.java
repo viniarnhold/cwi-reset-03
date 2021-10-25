@@ -3,6 +3,7 @@ package br.com.cwi.reset.viniciusarnhold.request;
 import java.time.LocalDate;
 
 public class DiretorRequest {
+    private Integer id;
     private String nome;
     private LocalDate dataNascimento;
     private Integer anoInicioAtividade;
@@ -35,5 +36,13 @@ public class DiretorRequest {
 
     public void setAnoInicioAtividade(Integer anoInicioAtividade) {
         this.anoInicioAtividade = anoInicioAtividade;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

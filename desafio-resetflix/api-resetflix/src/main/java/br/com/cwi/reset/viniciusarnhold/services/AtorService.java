@@ -46,8 +46,7 @@ public class AtorService {
             }
         }
 
-        Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getAnoInicioAtividade(),
-        atorRequest.getStatusCarreira());
+        Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
 
         atorRepository.save(ator);
     }

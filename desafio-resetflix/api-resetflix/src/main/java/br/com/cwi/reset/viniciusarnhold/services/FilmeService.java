@@ -72,11 +72,11 @@ public class FilmeService {
         if(filmeRequest.getResumo() == null){ throw new CampoObrigatorioException("resumo"); }
         if(filmeRequest.getPersonagens() == null) { throw new CampoObrigatorioException("personagens"); }
 
-        Estudio estudioDoFilme = consultarEstudioId(filmeRequest.getIdEstudio());
-        Diretor diretorDoFilme = consultarDiretorId(filmeRequest.getIdDiretor());
+        //Estudio estudioDoFilme = consultarEstudioId(filmeRequest.getIdEstudio());
+        //Diretor diretorDoFilme = consultarDiretorId(filmeRequest.getIdDiretor());
 
         for(PersonagemAtor personagem : filmeRequest.getPersonagens()){
-            consultarAtorId(personagem.getIdAtor());
+            consultarAtorId(personagem.getId());
         }
         if(filmeRequest.getGeneros().size() == 0){
             throw new GeneroVazioException();
@@ -91,14 +91,14 @@ public class FilmeService {
         List<PersonagemAtor> personagens = filmeRequest.getPersonagens();
         for(int i = 0; i < filmeRequest.getPersonagens().size(); i++){
             for(int j = i + 1 ; j < filmeRequest.getPersonagens().size(); j++){
-                if (personagens.get(i).getIdAtor() == personagens.get(j).getIdAtor() && personagens.get(i).getNomePersonagem().equals(personagens.get(j).getNomePersonagem())){
+                if (personagens.get(i).getId() == personagens.get(j).getId() && personagens.get(i).getNomePersonagem().equals(personagens.get(j).getNomePersonagem())){
                     throw new FilmeAtorEPersonagemRepetidoException();
                 }
             }
         }
 
         Filme filme = new Filme(filmeRequest.getNome(), filmeRequest.getAnoLancamento(), filmeRequest.getCapaFilme(), filmeRequest.getGeneros(),
-                filmeRequest.getIdDiretor(), filmeRequest.getPersonagens(), filmeRequest.getResumo());
+                filmeRequest.getIdEstudio(), filmeRequest.getIdDiretor(), filmeRequest.getPersonagens(), filmeRequest.getResumo());
 
         fakeDatabase.persisteFilme(filme);
     }
@@ -112,14 +112,14 @@ public class FilmeService {
                 }
             }
         }
-        if(nomeDiretor != null) {
-            Diretor diretor = diretorService.consultarDiretor(nomeDiretor);
-            for (Filme filme : fakeDatabase.recuperaFilmes()) {
-                if (diretor.getId() == filme.getIdDiretor()) {
-                    filmesConsultados.add(filme);
-                }
-            }
-        }
+//        if(nomeDiretor != null) { ========================================================================
+//            Diretor diretor = diretorService.consultarDiretor(nomeDiretor);
+//            for (Filme filme : fakeDatabase.recuperaFilmes()) {
+//                if (diretor.getId() == filme.getAnoLancamento()) {
+//                    filmesConsultados.add(filme);
+//                } PRECISA ARRUMAR ISSO AQUI---------------------------------------------------------------
+//            }
+//        }
         if(nomePersonagem != null) {
             for (Filme filme : fakeDatabase.recuperaFilmes()) {
                 for (PersonagemAtor personagem : filme.getPersonagens()) {
