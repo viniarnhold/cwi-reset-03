@@ -4,6 +4,7 @@ import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Diretor;
 import br.com.cwi.reset.viniciusarnhold.request.DiretorRequest;
 import br.com.cwi.reset.viniciusarnhold.services.DiretorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +15,8 @@ import java.util.List;
 @RequestMapping("/diretores")
 public class DiretorController {
 
+    @Autowired
     private DiretorService diretorService;
-
-    public DiretorController() {
-        this.diretorService = new DiretorService(FakeDatabase.getInstance());
-    }
 
     @PostMapping
     public ResponseEntity cadastrarDiretor(@RequestBody DiretorRequest diretorRequest) throws Exception {

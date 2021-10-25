@@ -1,21 +1,21 @@
 package br.com.cwi.reset.viniciusarnhold.services;
 
+import br.com.cwi.reset.viniciusarnhold.repository.DiretorRepository;
 import br.com.cwi.reset.viniciusarnhold.request.DiretorRequest;
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Diretor;
 import br.com.cwi.reset.viniciusarnhold.exceptions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class DiretorService {
 
-    private FakeDatabase fakeDatabase;
-
-    public DiretorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+    @Autowired
+    private DiretorRepository diretorRepository;
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws Exception {
         if (diretorRequest.getNome() == null) { throw new CampoObrigatorioNomeException(); }
@@ -37,7 +37,7 @@ public class DiretorService {
             throw new DiretorAnoInicioAtividadeException();
         }
 
-        for(Diretor diretorCadastrado : fakeDatabase.recuperaDiretores()){
+        for(Diretor diretorCadastrado : diretorRepository.findAll()){
             if(diretorCadastrado.getNome().equalsIgnoreCase(diretorRequest.getNome())){
                 throw new DiretorCadastradoException(diretorCadastrado.getNome());
             }
@@ -45,13 +45,13 @@ public class DiretorService {
 
         Diretor diretor = new Diretor(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
 
-        fakeDatabase.persisteDiretor(diretor);
+        diretorRepository.save(diretor);
     }
 
         public List listarDiretores() throws Exception {
             List<Diretor> diretores = new ArrayList<>();
 
-            for(Diretor diretor : fakeDatabase.recuperaDiretores()){
+            for(Diretor diretor : diretorRepository.findAll()){
                 diretores.add(diretor);
 
                 if(diretores.size() == 0){
@@ -63,7 +63,7 @@ public class DiretorService {
         public List listarDiretores(String filtroNome) throws Exception {
             List<Diretor> diretores = new ArrayList<>();
 
-            for(Diretor diretor : fakeDatabase.recuperaDiretores()){
+            for(Diretor diretor : diretorRepository.findAll()){
                 if(diretor.getNome().equals(filtroNome)) {
                         diretores.add(diretor);
                     if (diretores.size() == 0) {
@@ -76,7 +76,7 @@ public class DiretorService {
 
     public Diretor consultarDiretor(Integer id) throws Exception{
         Diretor diretorConsultado = null;
-        for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
+        for (Diretor diretor : diretorRepository.findAll()) {
             if (diretor.getId() == id) {
                 diretorConsultado = diretor;
             }
@@ -89,7 +89,7 @@ public class DiretorService {
 
     public Diretor consultarDiretor(String nome) throws Exception{
         Diretor diretorConsultado = null;
-        for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
+        for (Diretor diretor : diretorRepository.findAll()) {
             if (diretor.getNome().equals(nome)) {
                 diretorConsultado = diretor;
             }
