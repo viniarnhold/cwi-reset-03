@@ -3,13 +3,14 @@ package br.com.cwi.reset.projeto1.service;
 import br.com.cwi.reset.projeto1.domain.Filme;
 import br.com.cwi.reset.projeto1.exception.FilmeJaExistenteException;
 import br.com.cwi.reset.projeto1.exception.FilmeNaoExistenteException;
-import br.com.cwi.reset.projeto1.repository.FilmeRepository;
+import br.com.cwi.reset.projeto1.repository.FilmeRepositoryBd;
 
 import java.util.List;
 
 public class FilmeService {
 
-    private FilmeRepository repository = new FilmeRepository();
+
+    private FilmeRepositoryBd repository;
 
     public Filme salvar(Filme filme) throws FilmeJaExistenteException {
        Filme filmeJaExistente = repository.findByNome(filme.getNome());
@@ -22,7 +23,7 @@ public class FilmeService {
     }
 
     public List<Filme> listarTodos() {
-        return repository.findAll();
+        return (List<Filme>) repository.findAll();
     }
 
     public Filme buscarPorNome(String nome) {
@@ -42,6 +43,6 @@ public class FilmeService {
         if (filme == null) {
             throw new FilmeNaoExistenteException("Filme com o nome " + filme.getNome() + " não existe");
         }
-        return repository.update(filme);
+        return (Filme) repository.save(filme);
     }
 }

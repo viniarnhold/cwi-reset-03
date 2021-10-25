@@ -1,22 +1,22 @@
 package br.com.cwi.reset.viniciusarnhold.services;
 
+import br.com.cwi.reset.viniciusarnhold.repository.AtorRepository;
 import br.com.cwi.reset.viniciusarnhold.request.AtorRequest;
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Ator;
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
 import br.com.cwi.reset.viniciusarnhold.exceptions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class AtorService {
 
-    private FakeDatabase fakeDatabase;
-
-    public AtorService(FakeDatabase fakeDatabase) {
-        this.fakeDatabase = fakeDatabase;
-    }
+    @Autowired
+    private AtorRepository atorRepository;
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
 
@@ -40,7 +40,7 @@ public class AtorService {
             throw new AtorAnoInicioAtividadeException();
         }
 
-        for(Ator atorCadastrado : fakeDatabase.recuperaAtores()){
+        for(Ator atorCadastrado : atorRepository.findAll()){
             if(atorCadastrado.getNome().equalsIgnoreCase(atorRequest.getNome())){
                 throw new AtorCadastradoException(atorRequest.getNome());
             }
@@ -49,13 +49,13 @@ public class AtorService {
         Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getAnoInicioAtividade(),
         atorRequest.getStatusCarreira());
 
-        fakeDatabase.persisteAtor(ator);
+        atorRepository.save(ator);
     }
 
     public List listarAtoresEmAtividade() throws Exception {
         List<Ator> atoresEmAtividade = new ArrayList<>();
 
-        for(Ator ator : fakeDatabase.recuperaAtores()){
+        for(Ator ator : atorRepository.findAll()){
 
             if(ator.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE){
                 atoresEmAtividade.add(ator);
@@ -69,7 +69,7 @@ public class AtorService {
     public List listarAtoresEmAtividade(String filtroNome) throws Exception {
         List<Ator> atoresEmAtividade = new ArrayList<>();
 
-        for(Ator ator : fakeDatabase.recuperaAtores()){
+        for(Ator ator : atorRepository.findAll()){
             if(ator.getNome().equals(filtroNome)) {
                 if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
                     atoresEmAtividade.add(ator);
@@ -84,7 +84,7 @@ public class AtorService {
 
     public Ator consultarAtor(Integer id) throws Exception{
         Ator atorConsultado = null;
-        for (Ator ator : fakeDatabase.recuperaAtores()) {
+        for (Ator ator : atorRepository.findAll()) {
             if (ator.getId() == id) {
                 atorConsultado = ator;
             }
@@ -98,7 +98,7 @@ public class AtorService {
     public List consultarAtores() throws Exception{
         List<Ator> atores = new ArrayList<>();
 
-            for(Ator ator : fakeDatabase.recuperaAtores()){
+            for(Ator ator : atorRepository.findAll()){
                 atores.add(ator);
             }
             if(atores.size() == 0){

@@ -1,22 +1,27 @@
 package br.com.cwi.reset.projeto1.service;
 
 import br.com.cwi.reset.projeto1.domain.Pet;
-import br.com.cwi.reset.projeto1.repository.PetRepositoryImpl;
+import br.com.cwi.reset.projeto1.repository.PetRepositoryBd;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PetService {
 
-    @Autowired
-    private PetRepositoryImpl petRepository;
+//    @Autowired
+//    private PetRepositoryImpl petRepository;
 
-    public Pet salvar(Pet pet) throws Exception {
-        Pet petExistente = petRepository.buscarPorNome(pet.getNome());
+    @Autowired
+    private PetRepositoryBd petRepository;
+
+
+    public Pet save(Pet pet) throws Exception {
+        Pet petExistente = petRepository.findByNome(pet.getNome());
         if (petExistente == null){
-            petRepository.salvar(pet);
+            petRepository.save(pet);
         } else {
             throw new Exception("Já existe um Pet com o nome " + pet.getNome());
         }
@@ -24,24 +29,28 @@ public class PetService {
 
     }
         public List<Pet> listarPets(){
-            return petRepository.listarPets();
+            return petRepository.findAll();
         }
 
         public Pet buscarPorNome(String nome){
-            return petRepository.buscarPorNome(nome);
+            return petRepository.findByNome(nome);
         }
 
         public void deletar(String nome) throws Exception {
             Pet pet = buscarPorNome(nome);
 
             if (pet != null){
-                petRepository.deletar(pet);
+                petRepository.delete(pet);
             } else {
                 throw new Exception("Não existe Pet cadastrado com o nome " + nome);
             }
         }
 
-        public void atualizarPet(Pet pet) {
-            petRepository.atualizarPet(pet);
+        public Pet atualizarPet(Pet pet) {
+            Optional<Pet> petCadastrado = petRepository.findById(pet.getId());
+            if (petCadastrado != null){
+                return petRepository.save(pet);
+            }
+            return petRepository.save(pet);
         }
 }

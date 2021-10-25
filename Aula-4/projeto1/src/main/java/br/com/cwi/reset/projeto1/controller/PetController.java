@@ -35,7 +35,7 @@ public class PetController {
     @PostMapping
     public ResponseEntity<Object> cadastrarPet(@RequestBody Pet pet) {
         try {
-            petService.salvar(pet);
+            petService.save(pet);
             return ResponseEntity.ok().build();
         } catch (Exception e){
             return ResponseEntity.notFound().build();
@@ -51,5 +51,7 @@ public class PetController {
     public void deletarPet(@PathVariable String nome) throws Exception {
         petService.deletar(nome);
     }
+
+
 
 }

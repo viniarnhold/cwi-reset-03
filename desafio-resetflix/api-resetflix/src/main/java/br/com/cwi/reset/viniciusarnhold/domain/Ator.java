@@ -2,6 +2,7 @@ package br.com.cwi.reset.viniciusarnhold.domain;
 
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
 
+import javax.persistence.Entity;
 import java.time.LocalDate;
 
 public class Ator extends ProfissionalCinema{
