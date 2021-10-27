@@ -36,12 +36,21 @@ public class AtorController {
         return atorService.consultarAtor(id);
     }
 
-
     @GetMapping
     public List<Ator> listarAtores() throws Exception {
         return atorService.consultarAtores();
     }
 
-    //demais métodos
+    @PutMapping("/{id}")
+    public void atualizarAtor(@PathVariable Integer id, @RequestBody AtorRequest atorRequest) throws Exception {
+        atorService.atualizarAtor(id, atorRequest);
+        ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deletarAtor(@PathVariable Integer id) throws Exception {
+        atorService.deletarAtor(id);
+        ResponseEntity.ok().build();
+    }
 }
 

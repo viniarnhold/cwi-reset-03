@@ -1,6 +1,8 @@
 package br.com.cwi.reset.viniciusarnhold.services;
 
+import br.com.cwi.reset.viniciusarnhold.domain.PersonagemAtor;
 import br.com.cwi.reset.viniciusarnhold.repository.AtorRepository;
+import br.com.cwi.reset.viniciusarnhold.repository.PersonagemAtorRepository;
 import br.com.cwi.reset.viniciusarnhold.request.AtorRequest;
 import br.com.cwi.reset.viniciusarnhold.domain.Ator;
 import br.com.cwi.reset.viniciusarnhold.enums.StatusCarreira;
@@ -8,7 +10,9 @@ import br.com.cwi.reset.viniciusarnhold.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import javax.swing.text.html.Option;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +22,8 @@ public class AtorService {
 
     @Autowired
     private AtorRepository atorRepository;
+    @Autowired
+    private PersonagemAtorRepository personagemAtorRepository;
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
 
@@ -81,5 +87,41 @@ public class AtorService {
             throw new AtorNaoCadastradoException();
         }
         return atores;
+    }
+
+    public void atualizarAtor(@NotNull(message = "Campo obrigatório não informado. Favor informar o campo id.") Integer id,
+                              @NotNull(message = "Campo obrigatório não informado. Favor informar o campo atorRequest.")
+                              @Valid AtorRequest atorRequest) throws Exception {
+        Optional<Ator> atorOptional = atorRepository.findById(id);
+        Ator ator = atorOptional.get();
+//      ---------------------VALIDAÇÕES FORA DO @VALIDATOR-----------------------------
+        Boolean idExiste = atorRepository.existsById(id);
+        Boolean atorExistente = atorRepository.existsByNome(atorRequest.getNome());
+        if(!idExiste){
+            throw new Exception("Nenhum ator encontrado com o parâmetro id=" + id + ", favor verifique os parâmetros informados.");
+        }
+        if (!ator.getNome().equals(atorRequest.getNome())){
+            if (atorExistente){
+                throw new Exception("Já existe um ator cadastrado para o nome " + atorRequest.getNome());
+            }
+        }
+//      ---------------------VALIDAÇÕES FORA DO @VALIDATOR-----------------------------
+        ator.setNome(atorRequest.getNome());
+        ator.setDataNascimento(atorRequest.getDataNascimento());
+        ator.setAnoInicioAtividade(atorRequest.getAnoInicioAtividade());
+        ator.setStatusCarreira(atorRequest.getStatusCarreira());
+        atorRepository.save(ator);
+    }
+
+    public void deletarAtor(@NotNull(message = "Campo obrigatório não informado. Favor informar o campo id.") Integer id) throws Exception {
+        Optional<Ator> atorOptional = atorRepository.findById(id);
+        if(atorOptional.isEmpty()){
+            throw new Exception("Nenhum ator encontrado com o parâmetro id=" + id + ", favor verifique os parâmetros informados.");
+        }
+        Optional<PersonagemAtor> personagemAtorOptional = personagemAtorRepository.findById(id);
+        if(personagemAtorOptional.isPresent()){
+            throw new Exception("Este ator está vinculado a um ou mais personagens, para remover o ator é necessário remover os seus personagens de atuação.");
+        }
+        atorRepository.deleteById(id);
     }
 }
