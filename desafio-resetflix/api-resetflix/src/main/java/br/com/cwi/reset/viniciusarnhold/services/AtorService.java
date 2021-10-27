@@ -21,14 +21,10 @@ public class AtorService {
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
 
+//        -------------------------VALIDAÇÕES DE ATOR FORA DO @VALIDATOR----------------------
         if(atorRequest.getNome().split(" ").length < 2){
             throw new NomeESobrenomeException();
         }
-//        LocalDate dataAtual = LocalDate.now();
-//
-//        if(dataAtual.isBefore(atorRequest.getDataNascimento())){
-//            throw new AtorDataNascimentoException();
-//        }
 
         Integer anoNascimento = atorRequest.getDataNascimento().getYear();
 
@@ -41,6 +37,8 @@ public class AtorService {
                 throw new AtorCadastradoException(atorRequest.getNome());
             }
         }
+//        -------------------VALIDAÇÕES DE ATOR FORA DO @VALIDATOR--------------------------------------
+
 
         Ator ator = new Ator(atorRequest.getNome(), atorRequest.getDataNascimento(), atorRequest.getStatusCarreira(), atorRequest.getAnoInicioAtividade());
 
@@ -48,6 +46,7 @@ public class AtorService {
     }
 
     public List<Ator> listarAtoresEmAtividade() throws Exception {
+
         List<Ator> atoresEmAtividade = atorRepository.findByStatusCarreira(StatusCarreira.EM_ATIVIDADE);
 
         return atoresEmAtividade;

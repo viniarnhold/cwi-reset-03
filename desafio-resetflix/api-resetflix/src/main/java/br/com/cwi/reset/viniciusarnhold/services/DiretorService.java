@@ -20,6 +20,7 @@ public class DiretorService {
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws Exception {
 
+//        -------------------------VALIDAÇÕES DE DIRETOR FORA DO @VALIDATOR----------------------
         if(diretorRequest.getNome().split(" ").length < 2){
             throw new NomeESobrenomeException();
         }
@@ -35,6 +36,7 @@ public class DiretorService {
                 throw new DiretorCadastradoException(diretorCadastrado.getNome());
             }
         }
+//        -------------------------VALIDAÇÕES DE DIRETOR FORA DO @VALIDATOR----------------------
 
         Diretor diretor = new Diretor(diretorRequest.getNome(), diretorRequest.getDataNascimento(), diretorRequest.getAnoInicioAtividade());
 

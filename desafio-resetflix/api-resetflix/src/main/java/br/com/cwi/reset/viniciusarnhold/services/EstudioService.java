@@ -19,21 +19,14 @@ public class EstudioService {
     private EstudioRepository estudioRepository;
 
     public void criarEstudio(EstudioRequest estudioRequest) throws Exception {
-        if (estudioRequest.getNome() == null){ throw new CampoObrigatorioNomeException(); }
-        if (estudioRequest.getDescricao() == null){ throw new CampoObrigatorioDescricaoException(); }
-        if (estudioRequest.getDataCriacao() == null){ throw new CampoObrigatorioDataCriacaoException(); }
-        if (estudioRequest.getStatusAtividade() == null){ throw new CampoObrigatorioStatusAtividade(); }
 
+//        -------------------------VALIDAÇÕES DE ESTUDIO FORA DO @VALIDATOR----------------------
         for(Estudio estudio : estudioRepository.findAll()){
             if(estudioRequest.getNome().equals(estudio.getNome())){
                 throw new EstudioEncontradoException(estudioRequest.getNome());
             }
         }
-
-        LocalDate dataAtual = LocalDate.now();
-        if (estudioRequest.getDataCriacao().isAfter(dataAtual)){
-            throw new EstudioDataCriacaoException();
-        }
+//        -------------------------VALIDAÇÕES DE ESTUDIO FORA DO @VALIDATOR----------------------
 
         Estudio estudio = new Estudio(estudioRequest.getNome(), estudioRequest.getDescricao(), estudioRequest.getDataCriacao(),
                 estudioRequest.getStatusAtividade());
