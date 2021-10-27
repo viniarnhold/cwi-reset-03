@@ -21,19 +21,14 @@ public class AtorService {
 
     public void criarAtor(AtorRequest atorRequest) throws Exception{
 
-        if(atorRequest.getNome() == null) { throw new CampoObrigatorioNomeException(); }
-        if(atorRequest.getDataNascimento() == null){ throw new CampoObrigatorioDataNascimento(); }
-        if(atorRequest.getStatusCarreira() == null){ throw new CampoObrigatorioStatusCarreira(); }
-        if(atorRequest.getAnoInicioAtividade() == null) { throw new CampoObrigatorioAnoInicioAtividadeException(); }
-
         if(atorRequest.getNome().split(" ").length < 2){
             throw new NomeESobrenomeException();
         }
-        LocalDate dataAtual = LocalDate.now();
-
-        if(dataAtual.isBefore(atorRequest.getDataNascimento())){
-            throw new AtorDataNascimentoException();
-        }
+//        LocalDate dataAtual = LocalDate.now();
+//
+//        if(dataAtual.isBefore(atorRequest.getDataNascimento())){
+//            throw new AtorDataNascimentoException();
+//        }
 
         Integer anoNascimento = atorRequest.getDataNascimento().getYear();
 
@@ -52,30 +47,20 @@ public class AtorService {
         atorRepository.save(ator);
     }
 
-    public List listarAtoresEmAtividade() throws Exception {
-        List<Ator> atoresEmAtividade = new ArrayList<>();
+    public List<Ator> listarAtoresEmAtividade() throws Exception {
+        List<Ator> atoresEmAtividade = atorRepository.findByStatusCarreira(StatusCarreira.EM_ATIVIDADE);
 
-        for(Ator ator : atorRepository.findAll()){
-
-            if(ator.getStatusCarreira() == StatusCarreira.EM_ATIVIDADE){
-                atoresEmAtividade.add(ator);
-            }
-            if(atoresEmAtividade.size() == 0){
-                throw new AtorNaoCadastradoException();
-            }
-        }
         return atoresEmAtividade;
     }
-    public List listarAtoresEmAtividade(String filtroNome) throws Exception {
-        List<Ator> atoresEmAtividade = new ArrayList<>();
 
-        for(Ator ator : atorRepository.findAll()){
-            if(ator.getNome().equals(filtroNome)) {
-                if (ator.getStatusCarreira().equals(StatusCarreira.EM_ATIVIDADE)) {
-                    atoresEmAtividade.add(ator);
-                }
-            }
+    public List<Ator> listarAtoresEmAtividade(String filtroNome) throws Exception {
+        List<Ator> atoresEmAtividade = new ArrayList<>();
+        List<Ator> atoresEmAtividadeSemFiltro = listarAtoresEmAtividade();
+
+        for(Ator ator : atoresEmAtividadeSemFiltro){
+            atoresEmAtividade.add(ator);
         }
+
         if (atoresEmAtividade.size() == 0) {
             throw new AtorNaoEncontradoNomeException(filtroNome);
         }
@@ -98,9 +83,4 @@ public class AtorService {
         }
         return atores;
     }
-
-
-
-
-    // Demais métodos da classe
 }

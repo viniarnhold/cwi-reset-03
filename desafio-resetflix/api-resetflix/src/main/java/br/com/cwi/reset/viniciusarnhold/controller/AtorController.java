@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/atores")
@@ -19,7 +19,7 @@ public class AtorController {
     private AtorService atorService;
 
     @PostMapping
-    public ResponseEntity criarAtor(@RequestBody AtorRequest atorRequest) throws Exception {
+    public ResponseEntity criarAtor(@RequestBody @Valid AtorRequest atorRequest) throws Exception {
         atorService.criarAtor(atorRequest);
         return new ResponseEntity(HttpStatus.CREATED);
     }
