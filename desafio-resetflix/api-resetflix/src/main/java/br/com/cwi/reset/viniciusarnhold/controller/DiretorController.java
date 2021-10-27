@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class DiretorController {
     private DiretorService diretorService;
 
     @PostMapping
-    public ResponseEntity cadastrarDiretor(@RequestBody DiretorRequest diretorRequest) throws Exception {
+    public ResponseEntity cadastrarDiretor(@RequestBody @Valid DiretorRequest diretorRequest) throws Exception {
         diretorService.cadastrarDiretor(diretorRequest);
         return new ResponseEntity(HttpStatus.CREATED);
     }

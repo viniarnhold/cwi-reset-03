@@ -19,17 +19,9 @@ public class DiretorService {
     private DiretorRepository diretorRepository;
 
     public void cadastrarDiretor(DiretorRequest diretorRequest) throws Exception {
-        if (diretorRequest.getNome() == null) { throw new CampoObrigatorioNomeException(); }
-        if (diretorRequest.getDataNascimento() ==null) { throw new CampoObrigatorioDataNascimento(); }
-        if (diretorRequest.getAnoInicioAtividade() == null) { throw new CampoObrigatorioAnoInicioAtividadeException(); }
 
         if(diretorRequest.getNome().split(" ").length < 2){
             throw new NomeESobrenomeException();
-        }
-        LocalDate dataAtual = LocalDate.now();
-
-        if(dataAtual.isBefore(diretorRequest.getDataNascimento())){
-            throw new DiretorDataNascimentoException();
         }
 
         Integer anoNascimento = diretorRequest.getDataNascimento().getYear();
