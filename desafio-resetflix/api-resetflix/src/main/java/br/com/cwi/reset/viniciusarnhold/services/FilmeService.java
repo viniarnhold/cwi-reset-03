@@ -26,80 +26,16 @@ public class FilmeService {
     @Autowired
     private PersonagemAtorRepository personagemAtorRepository;
 
-//    public Diretor consultarDiretorId(Integer idDiretor) throws Exception{
-//        Optional<Diretor> diretorOptional =
-//        for (Diretor diretor : fakeDatabase.recuperaDiretores()) {
-//            if (diretor.getId() == idDiretor) {
-//                diretorConsultado = diretor;
-//                break;
-//            }
-//        }
-//        if(diretorConsultado == null) {
-//            throw new DiretorNaoEncontradoIdException(idDiretor);
-//        }
-//        return diretorConsultado;
-//    }
-
-//    public Estudio consultarEstudioId(Integer idEstudio) throws Exception{
-//        Estudio estudioConsultado = null;
-//        for (Estudio estudio : fakeDatabase.recuperaEstudios()) {
-//            if (estudio.getId() == idEstudio) {
-//                estudioConsultado = estudio;
-//                break;
-//            }
-//        }
-//        if(estudioConsultado == null) {
-//            throw new EstudioNaoEncontradoIdException(idEstudio);
-//        }
-//        return estudioConsultado;
-//    }
-
-//    public Ator consultarAtorId(Integer idAtor) throws Exception{
-//        Ator atorConsultado = null;
-//        for (Ator ator : fakeDatabase.recuperaAtores()) {
-//            if (ator.getId() == idAtor) {
-//                atorConsultado = ator;
-//                break;
-//            }
-//        }
-//        if(atorConsultado == null) {
-//            throw new AtorNaoEncontradoIdException(idAtor);
-//        }
-//        return atorConsultado;
-//    }
-
     public void criarFilme(FilmeRequest filmeRequest) throws Exception {
-
-        if(filmeRequest.getNome() == null) { throw new CampoObrigatorioNomeException(); }
-        if(filmeRequest.getAnoLancamento() == null){ throw new CampoObrigatorioException("anoLancamento"); }
-        if(filmeRequest.getCapaFilme() == null){ throw new CampoObrigatorioException("capaFilme"); }
-        if(filmeRequest.getGeneros() == null) { throw new CampoObrigatorioException("generos"); }
-        if(filmeRequest.getIdDiretor() == null){ throw new CampoObrigatorioException("idDiretor"); }
-        if(filmeRequest.getIdEstudio() == null) { throw new CampoObrigatorioException("idEstudio"); }
-        if(filmeRequest.getResumo() == null){ throw new CampoObrigatorioException("resumo"); }
-        if(filmeRequest.getPersonagens() == null) { throw new CampoObrigatorioException("personagens"); }
-
+        //        -------------------------VALIDAÇÕES DE FILME FORA DO @VALIDATOR----------------------
         Estudio estudioDoFilme = estudioService.consultarEstudio(filmeRequest.getIdEstudio());
         Diretor diretorDoFilme = diretorService.consultarDiretor(filmeRequest.getIdDiretor());
 
-
         List<PersonagemAtor> personagens = new ArrayList<>();
         for(PersonagemRequest personagem : filmeRequest.getPersonagens()){
-            if(personagem.getDescricaoPersonagem() == null) {
-                throw new CampoObrigatorioException("descricao");
-            }
-            if(personagem.getNomePersonagem() == null){
-                throw new CampoObrigatorioException("nomePersonagem");
-            }
-            if(personagem.getIdAtor() == null){
-                throw new CampoObrigatorioException("idAtor");
-            }
-            if(personagem.getTipoAtuacao() == null){
-                throw new CampoObrigatorioException("tipoAtuacao");
-            }
-
             PersonagemAtor personagemAtor = new PersonagemAtor(atorService.consultarAtor(personagem.getIdAtor()), personagem.getNomePersonagem(),
                     personagem.getDescricaoPersonagem(), personagem.getTipoAtuacao());
+
             personagemAtorRepository.save(personagemAtor);
             personagens.add(personagemAtor);
         }
@@ -124,7 +60,7 @@ public class FilmeService {
 
         Filme filme = new Filme(filmeRequest.getNome(), filmeRequest.getAnoLancamento(), filmeRequest.getCapaFilme(), filmeRequest.getGeneros(),
                 estudioDoFilme, diretorDoFilme, personagens, filmeRequest.getResumo());
-
+//        -------------------------VALIDAÇÕES DE FILME FORA DO @VALIDATOR----------------------
         filmeRepository.save(filme);
     }
 

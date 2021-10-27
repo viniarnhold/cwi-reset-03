@@ -1,15 +1,14 @@
 package br.com.cwi.reset.viniciusarnhold.controller;
 
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Filme;
 import br.com.cwi.reset.viniciusarnhold.request.FilmeRequest;
-import br.com.cwi.reset.viniciusarnhold.services.EstudioService;
 import br.com.cwi.reset.viniciusarnhold.services.FilmeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,7 +19,7 @@ public class FilmeController {
     private FilmeService filmeService;
 
     @PostMapping
-    public ResponseEntity criarFilme(@RequestBody FilmeRequest filmeRequest) throws Exception {
+    public ResponseEntity criarFilme(@RequestBody @Valid FilmeRequest filmeRequest) throws Exception {
         filmeService.criarFilme(filmeRequest);
         return new ResponseEntity(HttpStatus.CREATED);
     }

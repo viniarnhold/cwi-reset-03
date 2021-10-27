@@ -1,6 +1,5 @@
 package br.com.cwi.reset.viniciusarnhold.controller;
 
-import br.com.cwi.reset.viniciusarnhold.FakeDatabase;
 import br.com.cwi.reset.viniciusarnhold.domain.Estudio;
 import br.com.cwi.reset.viniciusarnhold.request.EstudioRequest;
 import br.com.cwi.reset.viniciusarnhold.services.EstudioService;
