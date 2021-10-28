@@ -32,4 +32,10 @@ public class FilmeController {
         return filmeService.consultarFilmes(nomeFilme, nomeDiretor, nomePersonagem, nomeAtor);
 
     }
+
+    @DeleteMapping("/{id}")
+    public void removerFilme(@PathVariable Integer id) throws Exception {
+        filmeService.removerFilme(id);
+        ResponseEntity.ok().build();
+    }
 }

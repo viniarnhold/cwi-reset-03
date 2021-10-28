@@ -9,8 +9,10 @@ import br.com.cwi.reset.viniciusarnhold.request.PersonagemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FilmeService {
@@ -103,5 +105,17 @@ public class FilmeService {
             throw new Exception("Não existe filme cadastrado para nenhum desses parâmetros");
         }
         return filmesConsultados;
+    }
+
+    public void removerFilme(@NotNull(message = "Campo obrigatório não informado. Favor informar o campo id.") Integer id) throws Exception {
+        Optional<Filme> filmeOptional = filmeRepository.findById(id);
+        if(filmeOptional.isEmpty()){
+            throw new Exception("Nenhum filme encontrado com o parâmetro id=" + id + ", favor verifique os parâmetros informados.");
+        }
+        Filme filme = filmeOptional.get();
+        for (PersonagemAtor personagem : filme.getPersonagens()){
+            personagemAtorRepository.deleteById(personagem.getId());
+        }
+        filmeRepository.deleteById(id);
     }
 }
