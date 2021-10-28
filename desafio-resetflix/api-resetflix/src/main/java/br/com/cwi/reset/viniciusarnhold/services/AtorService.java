@@ -10,7 +10,6 @@ import br.com.cwi.reset.viniciusarnhold.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -95,14 +94,13 @@ public class AtorService {
         Optional<Ator> atorOptional = atorRepository.findById(id);
         Ator ator = atorOptional.get();
 //      ---------------------VALIDAÇÕES FORA DO @VALIDATOR-----------------------------
-        Boolean idExiste = atorRepository.existsById(id);
         Boolean atorExistente = atorRepository.existsByNome(atorRequest.getNome());
-        if(!idExiste){
+        if(atorOptional.isEmpty()){
             throw new Exception("Nenhum ator encontrado com o parâmetro id=" + id + ", favor verifique os parâmetros informados.");
         }
         if (!ator.getNome().equals(atorRequest.getNome())){
             if (atorExistente){
-                throw new Exception("Já existe um ator cadastrado para o nome " + atorRequest.getNome());
+                throw new Exception("Já existe um ator cadastrado para o nome " + atorRequest.getNome() + ".");
             }
         }
 //      ---------------------VALIDAÇÕES FORA DO @VALIDATOR-----------------------------
@@ -115,12 +113,14 @@ public class AtorService {
 
     public void deletarAtor(@NotNull(message = "Campo obrigatório não informado. Favor informar o campo id.") Integer id) throws Exception {
         Optional<Ator> atorOptional = atorRepository.findById(id);
+        Ator ator = atorOptional.get();
         if(atorOptional.isEmpty()){
             throw new Exception("Nenhum ator encontrado com o parâmetro id=" + id + ", favor verifique os parâmetros informados.");
         }
-        Optional<PersonagemAtor> personagemAtorOptional = personagemAtorRepository.findById(id);
-        if(personagemAtorOptional.isPresent()){
-            throw new Exception("Este ator está vinculado a um ou mais personagens, para remover o ator é necessário remover os seus personagens de atuação.");
+        for (PersonagemAtor personagemAtor : personagemAtorRepository.findAll()){
+            if(personagemAtor.getAtor() == ator){
+                throw new Exception("Este ator está vinculado a um ou mais personagens, para remover o ator é necessário remover os seus personagens de atuação.");
+            }
         }
         atorRepository.deleteById(id);
     }
